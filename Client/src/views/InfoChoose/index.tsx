@@ -12,7 +12,7 @@ interface Props {}
 
 const InfoChoose: React.FC<Props> = () => {
     const [sizeaccept, setSizeaccept] = React.useState<string>("");
-    const [pagetype, setPagetype] = React.useState<string>("selectsize");
+    const [pagetype, setPagetype] = React.useState<string>("selectitem");
 
     // const [selectedCover, setSelectedItem] = useState(selectedGradient);
     const [inventory, setInventory] = React.useState([]);
@@ -58,7 +58,10 @@ const InfoChoose: React.FC<Props> = () => {
     // }, [inventory]);
 
     React.useEffect(() => {
-        setSelectedItem(sizeaccept);
+        setItemDetails({
+            ...itemDetails,
+            size: sizeaccept,
+        });
     }, [sizeaccept]);
     React.useEffect(() => {
         const handleInputBlur = () => {
@@ -216,7 +219,9 @@ const InfoChoose: React.FC<Props> = () => {
                         <Link className="nav-link" to="/customize">
                             <button
                                 className="btnglobal btnright"
-                                disabled={selectedItem === "" ? true : false}
+                                disabled={
+                                    itemDetails.size === "" ? true : false
+                                }
                             >
                                 <img
                                     src="images/common/button_next.png"

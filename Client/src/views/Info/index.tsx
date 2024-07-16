@@ -59,16 +59,54 @@ const Info: React.FC<Props> = () => {
             document.removeEventListener("blur", handleInputBlur, true);
         };
     }, []);
+
+    const formatPhoneNumber = (input) => {
+        const cleaned = input.replace(/\D/g, ""); // Remove non-numeric characters
+        const maxLength = 10;
+
+        if (cleaned.length <= 3) {
+            return cleaned;
+        } else if (cleaned.length <= 6) {
+            return `${cleaned.slice(0, 3)}-${cleaned.slice(3, maxLength)}`;
+        } else {
+            return `${cleaned.slice(0, 3)}-${cleaned.slice(
+                3,
+                6
+            )}-${cleaned.slice(6, maxLength)}`;
+        }
+    };
+    const handleNumberChange = (e) => {
+        const inputValue = e.target.value;
+        const formattedValue = formatPhoneNumber(inputValue);
+        console.log(inputValue, formattedValue);
+        setUserDetails((prevState) => ({
+            ...prevState,
+            phonenumber: formattedValue,
+        }));
+    };
     return (
         <>
             <Layout>
                 <RowBox>
                     <h1>NAME</h1>
-                    <input type="text" onChange={(e) => handleinputChange(e)} />
+                    <input
+                        type="text"
+                        value={userDetails.firstName}
+                        onChange={(e) =>
+                            setUserDetails((prevState) => ({
+                                ...prevState,
+                                firstName: e.target.value,
+                            }))
+                        }
+                    />
                 </RowBox>
                 <RowBox>
                     <h1>PHONE NUMBER</h1>
-                    <input type="text" onChange={(e) => handleinputChange(e)} />
+                    <input
+                        type="text"
+                        value={userDetails.phonenumber}
+                        onChange={handleNumberChange}
+                    />
                 </RowBox>
                 <RowBox className="info">
                     By Clicking Next, I acknowledge and agree to RECEIVING A ONE

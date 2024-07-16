@@ -28,6 +28,7 @@ const Customize: React.FC<Props> = () => {
     } = useContext(MyContext);
     // const [selcdesign, setSelcdesign] = useState(selectedCover);
     const [bgImage2, setBgImage2] = useState(null);
+    const [bgImage3, setBgImage3] = useState(null);
     const [screennum, setScreennum] = useState(2);
     var deleteIcon =
         "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
@@ -63,6 +64,18 @@ const Customize: React.FC<Props> = () => {
                     }
                 }
             });
+        }
+        if (itemDetails.selected === "flipflop") {
+            if (bgImage3) {
+                bgImage3.setSrc(newImageUrl, () => {
+                    if (canvas) {
+                        canvas.renderAll();
+                        if (callback) {
+                            callback();
+                        }
+                    }
+                });
+            }
         }
     };
     const downloadimage = async () => {
@@ -166,13 +179,23 @@ const Customize: React.FC<Props> = () => {
     useEffect(() => {
         if (canvasRef.current && rightWrapperRef.current) {
             // 2.0219
-            setCanvas(
-                new fabric.Canvas("demo", {
-                    targetFindTolerance: 5,
-                    width: 600,
-                    height: 927.27,
-                })
-            );
+            if (itemDetails.selected === "flipflop") {
+                setCanvas(
+                    new fabric.Canvas("demo", {
+                        targetFindTolerance: 5,
+                        width: 600,
+                        height: 712.67,
+                    })
+                );
+            } else {
+                setCanvas(
+                    new fabric.Canvas("demo", {
+                        targetFindTolerance: 5,
+                        width: 600,
+                        height: 927.27,
+                    })
+                );
+            }
         }
     }, []);
     var img = document.createElement("img");
@@ -206,10 +229,19 @@ const Customize: React.FC<Props> = () => {
     });
 
     const reorderCanvasObjects = (e) => {
-        if (bgImage2 && e.target !== bgImage2) {
-            canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
-            canvas.discardActiveObject();
-            canvas.renderAll();
+        if (itemDetails.selected === "flipflop") {
+            if (bgImage2 && e.target !== bgImage2 && e.target !== bgImage3) {
+                canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
+                canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
+                canvas.discardActiveObject();
+                canvas.renderAll();
+            }
+        } else {
+            if (bgImage2 && e.target !== bgImage2) {
+                canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
+                canvas.discardActiveObject();
+                canvas.renderAll();
+            }
         }
     };
 
@@ -269,6 +301,58 @@ const Customize: React.FC<Props> = () => {
                     canvas.moveTo(bgimage2, canvas.getObjects().length - 1);
                     canvas.renderAll();
                 });
+            } else if (itemDetails.selected === "flipflop") {
+                let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
+                let imgurl1 = `images/templates/flipflop/${itemDetails.size}/left.png`;
+                let imgurl2 = `images/templates/flipflop/${itemDetails.size}/right.png`;
+                let topshift = 0;
+                fabric.Image.fromURL(imgurl, (bgimage) => {
+                    canvas.setBackgroundImage(
+                        bgimage,
+                        canvas.renderAll.bind(canvas),
+                        {
+                            scaleX: canvas.width / bgimage.width,
+                            scaleY: canvas.height / bgimage.height,
+                        }
+                    );
+
+                    fabric.Image.fromURL(imgurl1, (bgimage2) => {
+                        bgimage2.set({
+                            scaleX: canvas.width / bgimage2.width,
+                            scaleY: canvas.height / bgimage2.height,
+                            selectable: false, // Makes the image non-selectable
+                            evented: false, // Disables events on the image
+                            top: topshift,
+                        });
+                        bgimage2.name = "borderImage";
+                        // Add the second image to the canvas
+                        canvas.add(bgimage2);
+                        // Store bgimage2 in state
+                        setBgImage2(bgimage2);
+                        // Move the image to the top
+                        canvas.moveTo(bgimage2, canvas.getObjects().length - 1);
+                        fabric.Image.fromURL(imgurl2, (bgimage3) => {
+                            bgimage3.set({
+                                scaleX: canvas.width / bgimage3.width,
+                                scaleY: canvas.height / bgimage3.height,
+                                selectable: false, // Makes the image non-selectable
+                                evented: false, // Disables events on the image
+                                top: topshift,
+                            });
+                            bgimage3.name = "borderImage3";
+                            // Add the second image to the canvas
+                            canvas.add(bgimage3);
+                            // Store bgimage2 in state
+                            setBgImage3(bgimage3);
+                            // Move the image to the top
+                            canvas.moveTo(
+                                bgimage3,
+                                canvas.getObjects().length - 2
+                            );
+                            canvas.renderAll();
+                        });
+                    });
+                });
             }
         }
     }, [canvas]);
@@ -283,8 +367,14 @@ const Customize: React.FC<Props> = () => {
 
                 fabric.Image.fromURL(imgurl, (img) => {
                     // Desired default width and height in pixels
-                    const defaultWidth = 200;
-                    const defaultHeight = 200;
+                    let defaultWidth, defaultHeight;
+                    if (itemDetails.selected === "tshirt") {
+                        defaultWidth = 200;
+                        defaultHeight = 200;
+                    } else {
+                        defaultWidth = 120;
+                        defaultHeight = 120;
+                    }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
                         defaultWidth / img.width,
@@ -333,10 +423,19 @@ const Customize: React.FC<Props> = () => {
                 }
             });
 
-            const paddingTop = 27;
-            const paddingBottom = 38;
-            const paddingRight = 22;
-            const paddingLeft = 22;
+            let paddingTop, paddingBottom, paddingRight, paddingLeft;
+
+            if (itemDetails.selected === "flipflop") {
+                paddingTop = 0;
+                paddingBottom = 0;
+                paddingRight = 0;
+                paddingLeft = 0;
+            } else {
+                paddingTop = 27;
+                paddingBottom = 38;
+                paddingRight = 22;
+                paddingLeft = 22;
+            }
             canvas.on("object:moving", function (e) {
                 const target = e.target;
 
@@ -434,7 +533,7 @@ const Customize: React.FC<Props> = () => {
                 <Wrapper>
                     <TopWrapper
                         ref={rightWrapperRef}
-                        className={`${
+                        className={`${itemDetails.selected} ${
                             screennum === 2
                                 ? "screen2"
                                 : screennum === 3
@@ -443,12 +542,23 @@ const Customize: React.FC<Props> = () => {
                         }`}
                     >
                         <canvas ref={canvasRef} id="demo" />
+                        <div className={`itembg ${itemDetails.selected}`}>
+                            {itemDetails.selected === "tshirt" && (
+                                <img
+                                    src={`images/common/${itemDetails.selected}.png`}
+                                    className="tshirtbg"
+                                    alt=""
+                                />
+                            )}
+                            {/* {itemDetails.selected === "flipflop" && (
+                                <img
+                                    src={`images/templates/${itemDetails.selected}/${itemDetails.size}/bg.png`}
+                                    className="flipbg"
+                                    alt=""
+                                />
+                            )} */}
+                        </div>
                     </TopWrapper>
-                    <img
-                        src={`images/common/${itemDetails.selected}.png`}
-                        className="itembg"
-                        alt=""
-                    />
                 </Wrapper>
                 {screennum === 2 ? (
                     <StyledFooter>
@@ -557,6 +667,7 @@ const Layout = styled.div`
         // padding-bottom: 0px;
         margin-bottom: 20px;
         filter: drop-shadow(0 3px 6px #000);
+        z-index: 999;
     }
 `;
 
@@ -592,7 +703,7 @@ const BottomWrapper = styled.div`
     position: Absolute;
     // padding: 15px 0;
     left: 0;
-    bottom: 200px;
+    bottom: 160px;
     .sliderwrapper {
         display: flex;
         justify-content: center;
@@ -634,12 +745,12 @@ const BottomWrapper = styled.div`
 
 const TopWrapper = styled.div`
     // background: #fff;
-    height: 100%;
+    height: auto;
     // width: 85vw;
     // height: 700px;
     box-sizing: border-box;
     // margin-bottom: 60px;
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     align-items: Center;
     justify-content: Center;
@@ -648,6 +759,9 @@ const TopWrapper = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    &.flipflop {
+        top: 45%;
+    }
     canvas {
         width: 100%;
         height: 100%;
@@ -670,10 +784,26 @@ const Wrapper = styled.div`
     // border-top: 1px solid #707070;
     flex-direction: column;
     .itembg {
-        // width: 100%;
-        height: 100%;
-        object-fit: contain;
-        // display: none;
+        position: absolute;
+        left: 0;
+        z-index: -1;
+
+        &.tshirt {
+            position: fixed;
+            transform: translate(-33vw, 3vh);
+            left: 0;
+            width: 100vw;
+            .tshirtbg {
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+        &.flipflop {
+            .flipbg {
+                width: 100%;
+                object-fit: contain;
+            }
+        }
     }
 `;
 // const StyledFooter = styled.div`

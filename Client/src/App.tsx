@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const MyContext = createContext({
     userDetails: {
         firstName: "",
+        phonenumber: "",
     },
     setUserDetails: (design) => {},
     appDetails: {
@@ -52,8 +53,8 @@ function App() {
         name: "Gov Ball",
     });
     const [itemDetails, setItemDetails] = React.useState({
-        selected: "tshirt",
-        size: "",
+        selected: "flipflop",
+        size: "AL",
     });
     const [inventoryDetails, setInventoryDetails] = React.useState([]);
     const [selectedItem, setSelectedItem] = React.useState("");
@@ -72,6 +73,7 @@ function App() {
 
     const [userDetails, setUserDetails] = React.useState({
         firstName: "",
+        phonenumber: "",
     });
 
     console.log(selectedItem);
