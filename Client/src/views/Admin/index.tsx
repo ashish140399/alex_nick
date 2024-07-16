@@ -552,7 +552,7 @@ const Admin: React.FC<Props> = () => {
                 <>
                     <Layout>
                         <div className="heading">
-                            <h1>Admin Panel</h1>Verizon
+                            <h1>Admin Panel</h1>Nick
                         </div>
 
                         <TableContainer component={Paper}>
