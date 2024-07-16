@@ -466,7 +466,7 @@ const Customize: React.FC<Props> = () => {
                                                 }
                                             >
                                                 <img
-                                                    src={`images/graphics/${item.graphic_img_name}.png`}
+                                                    src={`images/graphics/${item.graphic_img_name}_btn.png`}
                                                     alt=""
                                                 />
                                             </SelectorBox>
@@ -563,24 +563,25 @@ const Layout = styled.div`
 const SelectorBox = styled.div`
     // background: #fff;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    padding: 6px;
+    // padding: 6px;
     margin: 0 10px;
     box-sizing: border-box;
-    border: 2px solid #000;
-    border-radius: 22px;
+    // border: 2px solid #000;
+    // border-radius: 22px;
     cursor: pointer;
     width: 150px;
     min-width: 150px;
-    max-width: 150px;
-    height: 100px;
-    min-height: 100px;
-    max-height: 100px;
+    // max-width: 150px;
+    // height: 100px;
+    // min-height: 100px;
+    // max-height: 100px;
     img {
-        // height: 100%;
+        height: 100%;
         width: 100%;
-        // object-fit: contain;
+        object-fit: contain;
+        transform: scaleX(-1);
     }
 `;
 const BottomWrapper = styled.div`
@@ -600,7 +601,7 @@ const BottomWrapper = styled.div`
         max-width: 100vw;
         .selrow1 {
             display: flex;
-
+            align-items: flex-end;
             width: 100%;
             overflow-x: auto; /* Enables horizontal scrolling */
             white-space: nowrap;
