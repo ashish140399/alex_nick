@@ -29,6 +29,14 @@ const InfoChoose: React.FC<Props> = () => {
     };
 
     React.useEffect(() => {
+        // if (pagetype==="selectitem") {
+        //   setSizeaccept("");
+        //   setItemDetails({
+        //       ...itemDetails,
+        //       size: "",
+        //   });
+        // }
+
         axios
             .get(
                 `${process.env.REACT_APP_API_URL}/api/fetchinventory?itemtype=${itemDetails.selected}`
@@ -41,7 +49,7 @@ const InfoChoose: React.FC<Props> = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [pagetype, itemDetails.selected]);
     console.log(inventory);
 
     // React.useEffect(() => {
@@ -96,6 +104,13 @@ const InfoChoose: React.FC<Props> = () => {
         return () => {
             document.removeEventListener("blur", handleInputBlur, true);
         };
+    }, []);
+    React.useEffect(() => {
+        if (itemDetails.size) {
+            setPagetype("selectsize");
+        } else {
+            setPagetype("selectitem");
+        }
     }, []);
     return (
         <>

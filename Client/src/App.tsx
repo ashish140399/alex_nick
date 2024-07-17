@@ -53,8 +53,8 @@ function App() {
         name: "Gov Ball",
     });
     const [itemDetails, setItemDetails] = React.useState({
-        selected: "flipflop",
-        size: "AL",
+        selected: "",
+        size: "",
     });
     const [inventoryDetails, setInventoryDetails] = React.useState([]);
     const [selectedItem, setSelectedItem] = React.useState("");

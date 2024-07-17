@@ -297,21 +297,23 @@ const InnerTableRow = ({ res, index }) => {
                                 canvas.centerObject(img);
                                 img.set({
                                     // top: text.top + text.height,
-                                    width: 955,
-                                    height: 1931,
+                                    // width: 955,
+                                    // height: 1931,
                                     selectable: false,
                                     evented: false,
                                 });
 
                                 canvas.add(img);
                                 const text = new fabric.Text(
-                                    `${res?.userdetails.firstName} - ${res?.itemname}`,
+                                    `${
+                                        res?.userdetails.firstName
+                                    } - ${res?.itemname.selected.toUpperCase()} - ${res?.itemname.size.toUpperCase()}`,
                                     {
                                         fontSize: 140,
                                         fontFamily: "Gin",
                                         selectable: false,
                                         evented: false,
-                                        scaleX: -1,
+                                        // scaleX: -1,
                                     }
                                 );
                                 canvas.centerObject(text);
@@ -414,7 +416,12 @@ const InnerTableRow = ({ res, index }) => {
                 {/* <TableCell align="center">
                 {res.itemname.toUpperCase()} TAG
             </TableCell> */}
-                <TableCell align="center">{res.itemname}</TableCell>
+                <TableCell align="center">
+                    {res.itemname.size.toUpperCase()}
+                </TableCell>
+                <TableCell align="center">
+                    {res.itemname.selected.toUpperCase()}
+                </TableCell>
                 {/* <TableCell align="center">
                 <div
                     className="opbox"
@@ -578,7 +585,10 @@ const Admin: React.FC<Props> = () => {
                                             PRODUCT DESCRIPTION
                                         </TableCell> */}
                                         <TableCell align="center">
-                                            Case Name
+                                            Size
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            Type
                                         </TableCell>
                                         <TableCell align="center">
                                             Image
@@ -588,7 +598,7 @@ const Admin: React.FC<Props> = () => {
                                             FONT TYPE
                                         </TableCell> */}
                                         <TableCell align="center">
-                                            PDF PRINT
+                                            PRINT
                                         </TableCell>
                                         <TableCell align="center">
                                             RECEIPT
@@ -605,14 +615,13 @@ const Admin: React.FC<Props> = () => {
                                 <TableBody>
                                     {currentData &&
                                         currentData.map((res, index) => {
-                                            if (appDetails.id === res.appid)
-                                                return (
-                                                    <InnerTableRow
-                                                        index={index}
-                                                        key={res.id}
-                                                        res={res}
-                                                    />
-                                                );
+                                            return (
+                                                <InnerTableRow
+                                                    index={index}
+                                                    key={res.id}
+                                                    res={res}
+                                                />
+                                            );
                                         })}
                                 </TableBody>
                             </Table>

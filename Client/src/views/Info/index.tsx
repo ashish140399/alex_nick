@@ -119,7 +119,10 @@ const Info: React.FC<Props> = () => {
                     <Link className="nav-link" to="/infochoose">
                         <button
                             className="btnglobal btnright"
-                            disabled={!userDetails.firstName}
+                            disabled={
+                                !userDetails.firstName ||
+                                !userDetails.phonenumber
+                            }
                         >
                             <img src="images/common/button_next.png" alt="" />
                         </button>

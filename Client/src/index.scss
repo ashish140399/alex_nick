@@ -8,6 +8,10 @@
   font-family: Roc_Grotesk_Heavy;
   src: url("assets/fonts/fonnts.com-Roc_Grotesk_Heavy.otf");
 }
+@font-face {
+  font-family: fontspring;
+  src: url("assets/fonts/Crtr CF xtr Bld.ttf");
+}
 
 .app-container {
   max-width: 1180px;
@@ -83,6 +87,9 @@ code {
   }
   &.btnleft {
     left: 20px;
+  }
+  &:disabled {
+    opacity: 0.6;
   }
 }
 

@@ -48,9 +48,7 @@ const Inventory: React.FC<Props> = () => {
     const { appDetails } = React.useContext(MyContext);
     const fetchInventory = () => {
         axios
-            .get(
-                `${process.env.REACT_APP_API_URL}/api/fetchinventory?appid=${appDetails.id}`
-            )
+            .get(`${process.env.REACT_APP_API_URL}/api/fetchinventory`)
             .then((response) => {
                 setInventoryres(response.data);
             })
@@ -105,7 +103,7 @@ const Inventory: React.FC<Props> = () => {
             <>
                 <Layout>
                     <div className="heading">
-                        <h1>Admin Panel</h1>Case - Inventory
+                        <h1>Admin Panel</h1>Nick - Inventory
                     </div>
 
                     <TableContainer component={Paper}>
@@ -113,10 +111,8 @@ const Inventory: React.FC<Props> = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>ID</TableCell>
-
-                                    <TableCell align="center">
-                                        CASE TYPE
-                                    </TableCell>
+                                    <TableCell align="center">SIZE</TableCell>
+                                    <TableCell align="center">TYPE</TableCell>
                                     <TableCell align="center">
                                         USED ITEMS
                                     </TableCell>
@@ -153,6 +149,10 @@ const Inventory: React.FC<Props> = () => {
 
                                                 <TableCell align="center">
                                                     {res.item_name.toUpperCase()}
+                                                </TableCell>
+
+                                                <TableCell align="center">
+                                                    {res.img_name.toUpperCase()}
                                                 </TableCell>
 
                                                 <TableCell align="center">

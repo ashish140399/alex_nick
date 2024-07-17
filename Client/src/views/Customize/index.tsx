@@ -80,95 +80,94 @@ const Customize: React.FC<Props> = () => {
     };
     const downloadimage = async () => {
         // URL of the new image to replace bgimage2 with
-        const newImageUrl = `images/templates/Borders/${appDetails.idname}/${selectedItem}_bord.png`;
+        // const newImageUrl = `images/templates/Borders/${appDetails.idname}/${selectedItem}_bord.png`;
         setShowloader(true);
         // Replace bgimage2 with the new image, then download
-        updateBgImage2Url(newImageUrl, async () => {
-            if (canvas) {
-                var dataURLpng = await canvas.toDataURL({
-                    format: "png",
-                    quality: 10,
-                    multiplier: 3.22,
+        // updateBgImage2Url(newImageUrl, async () => {
+        if (canvas) {
+            var dataURLpng = await canvas.toDataURL({
+                format: "png",
+                quality: 10,
+                multiplier: 3.22,
+            });
+            // const modifiedSVG = base64ToSVG(
+            //     dataURLpng,
+            //     canvas.width,
+            //     canvas.height
+            // );
+            // console.log(modifiedSVG);
+
+            // console.log("dataURLpng", dataURLpng);
+            // var modifiedSVG = canvas.toSVG();
+            // console.log(dataURL);
+            // let modifiedSVG;
+
+            // console.log(modifiedSVG);
+
+            // var blob = new Blob([dataURL], {
+            //     type: "image/svg+xml;charset=utf-8",
+            // });
+            // var url = URL.createObjectURL(blob);
+
+            // var link = document.createElement("a");
+            // link.download = `canvas.png`;
+            // link.href = dataURLpng;
+            // link.click();
+
+            // if (customizeInfo.selected === "graphic") {
+            //     modifiedSVG = await replaceImageURLWithBase64(dataURL);
+            // } else {
+            //     modifiedSVG = await dataURL;
+            // }
+
+            // modifiedSVG = await dataURL;
+
+            // var blob = new Blob([modifiedSVG], {
+            //     type: "image/svg+xml;charset=utf-8",
+            // });
+            // var url = URL.createObjectURL(blob);
+
+            // var link = document.createElement("a");
+            // link.download = `canvas.svg`;
+            // link.href = url;
+            // link.click();
+
+            // console.log(modifiedSVG);
+            setUsagetime({
+                ...usagetime,
+                end: new Date(),
+            });
+
+            const timeDifference =
+                usagetime.start.getTime() - usagetime.end.getTime();
+            console.log("timeDifference", timeDifference);
+            // console.log(
+            //     "LLOGGGGGGGGGGGGGGGGG",
+            //     JSON.stringify(userDetails),
+            //     selectedItem,
+            //     // customizeInfo["graphic"].value.toString(),
+            //     JSON.stringify(modifiedSVG),
+            //     timeDifference
+            // );
+
+            axios
+                .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
+                    userDetails: JSON.stringify(userDetails),
+                    itemname: JSON.stringify(itemDetails),
+                    canvasuri: dataURLpng,
+                    timeDiff: timeDifference,
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    setShowloader(false);
+
+                    navigate("/thankyou");
+                })
+                .catch((error) => {
+                    console.error(error);
                 });
-                // const modifiedSVG = base64ToSVG(
-                //     dataURLpng,
-                //     canvas.width,
-                //     canvas.height
-                // );
-                // console.log(modifiedSVG);
-
-                // console.log("dataURLpng", dataURLpng);
-                // var modifiedSVG = canvas.toSVG();
-                // console.log(dataURL);
-                // let modifiedSVG;
-
-                // console.log(modifiedSVG);
-
-                // var blob = new Blob([dataURL], {
-                //     type: "image/svg+xml;charset=utf-8",
-                // });
-                // var url = URL.createObjectURL(blob);
-
-                // var link = document.createElement("a");
-                // link.download = `canvas.png`;
-                // link.href = dataURLpng;
-                // link.click();
-
-                // if (customizeInfo.selected === "graphic") {
-                //     modifiedSVG = await replaceImageURLWithBase64(dataURL);
-                // } else {
-                //     modifiedSVG = await dataURL;
-                // }
-
-                // modifiedSVG = await dataURL;
-
-                // var blob = new Blob([modifiedSVG], {
-                //     type: "image/svg+xml;charset=utf-8",
-                // });
-                // var url = URL.createObjectURL(blob);
-
-                // var link = document.createElement("a");
-                // link.download = `canvas.svg`;
-                // link.href = url;
-                // link.click();
-
-                // console.log(modifiedSVG);
-                setUsagetime({
-                    ...usagetime,
-                    end: new Date(),
-                });
-
-                const timeDifference =
-                    usagetime.start.getTime() - usagetime.end.getTime();
-                console.log("timeDifference", timeDifference);
-                // console.log(
-                //     "LLOGGGGGGGGGGGGGGGGG",
-                //     JSON.stringify(userDetails),
-                //     selectedItem,
-                //     // customizeInfo["graphic"].value.toString(),
-                //     JSON.stringify(modifiedSVG),
-                //     timeDifference
-                // );
-
-                axios
-                    .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
-                        userDetails: JSON.stringify(userDetails),
-                        itemname: JSON.stringify(selectedItem),
-                        canvasuri: dataURLpng,
-                        timeDiff: timeDifference,
-                        appDetails: JSON.stringify(appDetails),
-                    })
-                    .then((response) => {
-                        console.log(response.data);
-                        setShowloader(false);
-
-                        navigate("/thankyou");
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-        });
+        }
+        // });
     };
 
     const canvasRef = useRef(null);
@@ -229,19 +228,10 @@ const Customize: React.FC<Props> = () => {
     });
 
     const reorderCanvasObjects = (e) => {
-        if (itemDetails.selected === "flipflop") {
-            if (bgImage2 && e.target !== bgImage2 && e.target !== bgImage3) {
-                canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
-                canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
-                canvas.discardActiveObject();
-                canvas.renderAll();
-            }
-        } else {
-            if (bgImage2 && e.target !== bgImage2) {
-                canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
-                canvas.discardActiveObject();
-                canvas.renderAll();
-            }
+        if (bgImage2 && e.target !== bgImage2) {
+            canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
+            canvas.discardActiveObject();
+            canvas.renderAll();
         }
     };
 
@@ -303,8 +293,8 @@ const Customize: React.FC<Props> = () => {
                 });
             } else if (itemDetails.selected === "flipflop") {
                 let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
-                let imgurl1 = `images/templates/flipflop/${itemDetails.size}/left.png`;
-                let imgurl2 = `images/templates/flipflop/${itemDetails.size}/right.png`;
+                let imgurl1 = `images/templates/flipflop/${itemDetails.size}/right.png`;
+                let imgurl2 = `images/templates/flipflop/${itemDetails.size}/left.png`;
                 let topshift = 0;
                 fabric.Image.fromURL(imgurl, (bgimage) => {
                     canvas.setBackgroundImage(
@@ -339,16 +329,16 @@ const Customize: React.FC<Props> = () => {
                                 evented: false, // Disables events on the image
                                 top: topshift,
                             });
-                            bgimage3.name = "borderImage3";
+                            // bgimage3.name = "borderImage3";
                             // Add the second image to the canvas
                             canvas.add(bgimage3);
                             // Store bgimage2 in state
-                            setBgImage3(bgimage3);
+                            // setBgImage3(bgimage3);
                             // Move the image to the top
-                            canvas.moveTo(
-                                bgimage3,
-                                canvas.getObjects().length - 2
-                            );
+                            // canvas.moveTo(
+                            //     bgimage3,
+                            //     canvas.getObjects().length - 2
+                            // );
                             canvas.renderAll();
                         });
                     });
@@ -527,7 +517,7 @@ const Customize: React.FC<Props> = () => {
                             : "FLIPFLOPS"}
                     </h1>
                 ) : (
-                    <h1 className="customize">Preview Your Case</h1>
+                    <h1 className="customize">CONFIRM YOUR DESIGN</h1>
                 )}
 
                 <Wrapper>
@@ -594,6 +584,13 @@ const Customize: React.FC<Props> = () => {
                                 />
                             </button>
                         </Link>
+                        <div className="footercentertext">
+                            Swipe and tap on the graphics to add them to your
+                            {itemDetails.selected === "tshirt"
+                                ? " shirt"
+                                : " flip flops"}
+                            . Then pinch out and in to change size
+                        </div>
 
                         <button
                             className="btnglobal btnright"
@@ -613,13 +610,16 @@ const Customize: React.FC<Props> = () => {
                                 setScreennum(2);
                                 setDesignfinalised(false);
                             }}
-                        >{`<`}</button>
+                        >
+                            {" "}
+                            <img src="images/common/button_back.png" alt="" />
+                        </button>
 
                         <button
                             className="btnglobal btnright"
                             onClick={() => downloadimage()}
                         >
-                            {`>`}
+                            <img src="images/common/button_next.png" alt="" />
                         </button>
                     </StyledFooter>
                 )}
@@ -632,7 +632,25 @@ const Customize: React.FC<Props> = () => {
         </>
     );
 };
-const StyledFooter = styled(Footer)``;
+const StyledFooter = styled(Footer)`
+    .footercentertext {
+        border-radius: 7px;
+        border: 3px solid #000;
+        background: #9d4798;
+        color: #fff;
+        text-align: center;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        -webkit-text-stroke-width: 0.25;
+        -webkit-text-stroke-color: #fff;
+        font-family: fontspring;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        padding: 10px 16px 10px 16px;
+        margin-top: -8px;
+    }
+`;
 const Layout = styled.div`
     display: flex;
     align-items: center;
@@ -774,9 +792,13 @@ const TopWrapper = styled.div`
         transform: scale(0.96);
     }
     &.screen3 {
-        transform: scale(0.9);
-        margin-top: -20px;
-        // margin-top: 80px;
+        transform: translate(-50%, -50%) scale(1);
+        &.flipflop {
+            transform-origin: center;
+            left: 50% !important;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
     }
 `;
 const Wrapper = styled.div`

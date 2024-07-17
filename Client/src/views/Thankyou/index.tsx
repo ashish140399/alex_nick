@@ -16,16 +16,17 @@ const Thankyou: React.FC<Props> = () => {
     return (
         <>
             <Layout>
-                <img src="./images/common/logo.png" className="logo" alt="" />
+                {/* <img src="./images/common/logo.png" className="logo" alt="" />
                 <img
                     src="./images/common/thankstext.png"
                     className="text"
                     alt=""
-                />
+                /> */}
             </Layout>
         </>
     );
 };
+
 const Layout = styled.div`
     display: flex;
     // align-items: center;
@@ -33,7 +34,12 @@ const Layout = styled.div`
     justify-content: center;
     align-items: Center;
     min-height: 100vh;
-    background: #e91a21;
+    height: 100vh;
+    width: 100vw;
+    background: url(/images/common/thankyou.png);
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
     img {
         position: absolute;
         left: 50%;
