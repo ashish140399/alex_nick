@@ -742,10 +742,11 @@ const BottomWrapper = styled.div`
     // width: 400px;
     // max-height: calc(100vh - 184px);
     box-sizing: border-box;
-    position: Absolute;
+    position: fixed;
+
     // padding: 15px 0;
     left: 0;
-    bottom: 160px;
+    bottom: 375px;
     .sliderwrapper {
         display: flex;
         justify-content: center;
