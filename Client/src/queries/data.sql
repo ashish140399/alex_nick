@@ -46,10 +46,17 @@ CREATE TABLE IF NOT EXISTS inventory_list(
 
 
 INSERT INTO `inventory_list` ( `item_name`, `img_name`, `used_count`,`available_items`, `updation_time`) VALUES
-('Small', 'tshirt',  0,100, CURRENT_TIMESTAMP),
-('Large', 'tshirt',  0,100, CURRENT_TIMESTAMP),
-('Small', 'flipflop',  0,100, CURRENT_TIMESTAMP),
-('Large', 'flipflop',  0,100, CURRENT_TIMESTAMP);
+('XS', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('S', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('M', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('L', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('XL', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('2XL', 'tshirt',  0,100, CURRENT_TIMESTAMP),
+('KS', 'flipflop',  0,100, CURRENT_TIMESTAMP),
+('KL', 'flipflop',  0,100, CURRENT_TIMESTAMP),
+('AS', 'flipflop',  0,100, CURRENT_TIMESTAMP),
+('AM', 'flipflop',  0,100, CURRENT_TIMESTAMP),
+('AL', 'flipflop',  0,100, CURRENT_TIMESTAMP);
 
 CREATE TABLE IF NOT EXISTS graphic_list(
     ig INT AUTO_INCREMENT PRIMARY KEY,

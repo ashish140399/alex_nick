@@ -76,7 +76,7 @@ function App() {
         phonenumber: "",
     });
 
-    console.log(selectedItem);
+    console.log(itemDetails);
     return (
         <MyContext.Provider
             value={{

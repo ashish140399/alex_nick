@@ -235,12 +235,29 @@ const Customize: React.FC<Props> = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (canvas) {
-    //         canvas.clear();
-    //         canvas.renderAll();
-    //     }
-    // }, [canvas]);
+    useEffect(() => {
+        if (canvas) {
+            // canvas.clear();
+            // canvas.renderAll();
+            if (itemDetails.selected === "flipflop") {
+                if (itemDetails.size === "KS") {
+                    var zoom = canvas.getZoom();
+                    zoom *= 1.35; // Increase the zoom factor by 20%
+                    canvas.zoomToPoint(
+                        new fabric.Point(canvas.width / 2, canvas.height / 2),
+                        zoom
+                    );
+                } else if (itemDetails.size === "KL") {
+                    var zoom = canvas.getZoom();
+                    zoom *= 1.1; // Increase the zoom factor by 20%
+                    canvas.zoomToPoint(
+                        new fabric.Point(canvas.width / 2, canvas.height / 2),
+                        zoom
+                    );
+                }
+            }
+        }
+    }, [canvas]);
 
     // updates the canvas when the design is finalised
     useEffect(() => {
