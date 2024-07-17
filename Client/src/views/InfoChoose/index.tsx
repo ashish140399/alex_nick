@@ -266,6 +266,7 @@ const RowBox = styled.div`
         text-align: center;
         font-size: 54px;
         font-family: Roc_Grotesk_Heavy;
+        font-weight: 300 !important;
         padding: 10px;
         position: fixed;
         left: 50%;
@@ -296,6 +297,7 @@ const RowBox = styled.div`
         font-size: 54px !important;
         background: #000;
         font-family: Roc_Grotesk_Heavy;
+        font-weight: 300 !important;
         width: 40vw !important;
         display: block;
         margin: auto;

@@ -548,6 +548,8 @@ const Customize: React.FC<Props> = () => {
 
     const renderer = ({ minutes, seconds, completed }) => {
         if (completed) {
+            setScreennum(3);
+            setDesignfinalised(true);
         } else {
             return <>{zeroPad(minutes * 60 + seconds)}</>;
         }
@@ -706,7 +708,7 @@ const TimeBox = styled.div`
         font-family: Roc_Grotesk_Heavy;
         font-size: 28px;
         font-style: normal;
-        font-weight: 900;
+        font-weight: 00;
         line-height: 44px; /* 156.25% */
     }
     .timeleft {
@@ -777,6 +779,7 @@ const Layout = styled.div`
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         box-sizing: border-box;
         font-family: Roc_Grotesk_Heavy;
+        font-weight: 300 !important;
         color: #fff;
         font-size: 50px;
         text-transform: uppercase;
@@ -923,12 +926,14 @@ const Wrapper = styled.div`
 
         &.tshirt {
             position: fixed;
-            transform: translate(-33vw, 3vh);
+            transform: translate(-20vw, 1vh);
             left: 0;
             width: 100vw;
+            height: 100vh;
             .tshirtbg {
-                height: 100%;
+                width: 100%;
                 object-fit: contain;
+                transform: scale(1.06);
             }
         }
         &.flipflop {

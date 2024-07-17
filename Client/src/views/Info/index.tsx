@@ -166,7 +166,7 @@ const RowBox = styled.div`
         text-align: center;
         font-family: Roc_Grotesk_Heavy;
         font-size: 70px;
-        font-weight: 100;
+        font-weight: 300 !important;
         letter-spacing: 3px;
         margin-bottom: 16px;
         // position: absolute;
