@@ -493,6 +493,39 @@ const Customize: React.FC<Props> = () => {
                     console.log("in obejctmodify");
                 }
             });
+            canvas.on("touch:gesture", function (e) {
+                if (e.self.state === "start") {
+                    this.lastScale = this.getZoom();
+                }
+                if (e.e.touches && e.e.touches.length === 2) {
+                    // Calculate the distance between the first two touches
+                    let distance = Math.sqrt(
+                        Math.pow(
+                            e.e.touches[0].clientX - e.e.touches[1].clientX,
+                            2
+                        ) +
+                            Math.pow(
+                                e.e.touches[0].clientY - e.e.touches[1].clientY,
+                                2
+                            )
+                    );
+                    if (!this.lastDistance) {
+                        this.lastDistance = distance;
+                    }
+
+                    let scaleMultiplier = distance / this.lastDistance;
+                    let newScale = this.lastScale * scaleMultiplier;
+                    this.setZoom(newScale);
+                    this.requestRenderAll();
+                    this.lastDistance = distance;
+                }
+            });
+
+            // Reset distance on touch end
+            canvas.on("touch:gestureend", function () {
+                this.lastDistance = 0;
+            });
+
             // Ensure cleanup to prevent multiple event bindings
             return () => {
                 canvas.off("object:added", reorderCanvasObjects);
@@ -501,6 +534,8 @@ const Customize: React.FC<Props> = () => {
                 canvas.off("object:scaling", reorderCanvasObjects);
                 canvas.off("object:moving", reorderCanvasObjects);
                 canvas.off("object:modified", reorderCanvasObjects);
+                canvas.off("touch:gesture", reorderCanvasObjects);
+                canvas.off("touch:gestureend", reorderCanvasObjects);
             };
         }
     }, [selGraphic]);
