@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LoaderAnimation from "../components/LoaderAnimation";
 import axios from "axios";
 import { Footer } from "../../styles";
+import Countdown, { zeroPad } from "react-countdown";
 interface Props {}
 
 const Customize: React.FC<Props> = () => {
@@ -544,6 +545,13 @@ const Customize: React.FC<Props> = () => {
             };
         }
     }, [selGraphic]);
+
+    const renderer = ({ minutes, seconds, completed }) => {
+        if (completed) {
+        } else {
+            return <>{zeroPad(minutes * 60 + seconds)}</>;
+        }
+    };
     return (
         <>
             {showloader && <LoaderAnimation />}
@@ -559,7 +567,16 @@ const Customize: React.FC<Props> = () => {
                 ) : (
                     <h1 className="customize">CONFIRM YOUR DESIGN</h1>
                 )}
-
+                <TimeBox>
+                    <div className="timelimit">TIME LIMIT</div>
+                    <div className="timeleft">
+                        <Countdown
+                            date={Date.now() + 90000}
+                            renderer={renderer}
+                        />
+                        <span>SEC</span>
+                    </div>
+                </TimeBox>
                 <Wrapper>
                     <TopWrapper
                         ref={rightWrapperRef}
@@ -672,6 +689,53 @@ const Customize: React.FC<Props> = () => {
         </>
     );
 };
+const TimeBox = styled.div`
+    border: 3px solid #000;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    right: 7vw;
+    top: 185px;
+    padding: 5px 20px;
+    z-index: 99999;
+    .timelimit {
+        color: #ff00f5;
+        text-align: center;
+        -webkit-text-stroke-width: 3;
+        -webkit-text-stroke-color: #000;
+        font-family: Roc_Grotesk_Heavy;
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 44px; /* 156.25% */
+    }
+    .timeleft {
+        color: #fff;
+        text-align: center;
+        -webkit-text-stroke-width: 3;
+        -webkit-text-stroke-color: #000;
+        font-family: Roc_Grotesk_Heavy;
+        font-size: 62px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+        display: flex;
+        align-items: center;
+        line-height: 60px;
+        span {
+            color: #ff00f5;
+            text-align: center;
+            -webkit-text-stroke-width: 3;
+            -webkit-text-stroke-color: #000;
+            font-family: Roc_Grotesk_Heavy;
+            font-size: 32px;
+            font-style: normal;
+            margin-left: 10px;
+            font-weight: 900;
+            line-height: 50px; /* 156.25% */
+        }
+    }
+`;
 const StyledFooter = styled(Footer)`
     .footercentertext {
         border-radius: 7px;
@@ -714,20 +778,24 @@ const Layout = styled.div`
         box-sizing: border-box;
         font-family: Roc_Grotesk_Heavy;
         color: #fff;
-        font-size: 40px;
+        font-size: 50px;
         text-transform: uppercase;
         letter-spacing: 3px;
         margin: 0;
         text-align: center;
         font-weight: 100;
         padding: 8px 0;
-        margin-top: 66px;
+        padding-top: 12px;
+        margin-top: 50px;
         position: absolute;
         left: 0;
         // padding-bottom: 0px;
         margin-bottom: 20px;
         filter: drop-shadow(0 3px 6px #000);
         z-index: 999;
+        width: 86vw;
+        left: 50%;
+        transform: translateX(-50%);
     }
 `;
 

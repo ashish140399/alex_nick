@@ -148,10 +148,9 @@ app.post("/api/savesvg", (req, res) => {
 });
 app.post("/api/savepng", (req, res) => {
     const data = req.body;
-    const { canvasuri, userDetails, timeDiff, itemname, appDetails } = data;
+    const { canvasuri, userDetails, timeDiff, itemname } = data;
     const parseduserDetails = JSON.parse(userDetails);
     const parsedItemDetails = JSON.parse(itemname);
-    const parsedAppDetails = JSON.parse(appDetails);
     const base64Data = canvasuri.replace(/^data:image\/png;base64,/, "");
     console.log(
         "--------------------------------------------------------------------"
@@ -159,7 +158,7 @@ app.post("/api/savepng", (req, res) => {
     console.log(data);
     const filePath =
         __dirname +
-        `/canvas/${parsedAppDetails.idname}_${
+        `/canvas/${parsedItemDetails.selected}_${
             parseduserDetails.firstName + Date.now()
         }.png`;
     console.log("Data received for", parseduserDetails.firstName);
@@ -173,22 +172,23 @@ app.post("/api/savepng", (req, res) => {
                 "https://familyindustriesapps.com"
             );
 
-            const query1 = `INSERT INTO user_data (userdetails, itemname,canvasuri, usagetime,appid,appname, updationtime) VALUES (?, ?, ?, ?,?,?,?)`;
+            const query1 = `INSERT INTO user_data (userdetails, itemname,canvasuri, usagetime, updationtime) VALUES (?, ?, ?,?,?)`;
             const values1 = [
                 userDetails,
                 itemname,
                 respath,
                 timeDiff,
-                parsedAppDetails.id,
-                parsedAppDetails.idname,
                 new Date(),
             ];
             const log1 = "Data Inserted successfully !!";
 
             await saveData(req, res, query1, values1, log1);
 
-            const query2 = `UPDATE inventory_list SET used_count = used_count + 1 WHERE img_name = ? AND appid = ? `;
-            const values2 = [parsedItemDetails, parsedAppDetails.id];
+            const query2 = `UPDATE inventory_list SET used_count = used_count + 1 WHERE img_name = ? AND item_name = ? `;
+            const values2 = [
+                parsedItemDetails.selected,
+                parsedItemDetails.size,
+            ];
             const log2 = "Inventory used count updated";
             await saveData(req, res, query2, values2, log2);
 
@@ -270,9 +270,14 @@ app.post("/api/savestatus", async (req, res) => {
 app.get("/api/fetchinventory", async (req, res) => {
     console.log("in inventory");
     const { itemtype } = req.query;
+    let params = [];
     try {
-        const query = "SELECT * FROM inventory_list where img_name = ?";
-        const result = await executeQuery(query, [itemtype]);
+        let query = "SELECT * FROM inventory_list";
+        if (req.query) {
+            query = query + " where img_name = ?";
+            params = [itemtype];
+        }
+        const result = await executeQuery(query, params);
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
