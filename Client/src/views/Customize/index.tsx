@@ -672,7 +672,8 @@ const StyledFooter = styled(Footer)`
         line-height: normal;
         padding: 10px 16px 10px 16px;
         margin-top: -8px;
-        min-width: 400px;
+        // min-width: 400px;
+        width: 50vw;
     }
 `;
 const Layout = styled.div`
@@ -742,11 +743,11 @@ const BottomWrapper = styled.div`
     // width: 400px;
     // max-height: calc(100vh - 184px);
     box-sizing: border-box;
-    position: fixed;
+    position: absolute;
 
     // padding: 15px 0;
     left: 0;
-    bottom: 375px;
+    bottom: 190px;
     .sliderwrapper {
         display: flex;
         justify-content: center;
