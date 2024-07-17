@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import Admin from "./views/Admin";
 import Customize from "./views/Customize";
 import Info from "./views/Info";
@@ -77,6 +78,7 @@ function App() {
     });
 
     console.log(itemDetails);
+    const location = useLocation();
     return (
         <MyContext.Provider
             value={{
@@ -95,49 +97,27 @@ function App() {
                 setItemDetails,
             }}
         >
-            {/* {
-        window.location.pathname != "/admin" ? <BG className="mybglayout"> <img src="images/pg_bg2.png" className="pg_bg2" alt="" />
-          <img src="images/pg_bg1.png" className="pg_bg1" alt="" />
-        </BG> : null
-      } */}
             <ToastContainer />
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Welcome />} />
-                    <Route path="/info" element={<Info />} />
-                    <Route path="/infochoose" element={<InfoChoose />} />
-                    <Route path="/customize" element={<Customize />} />
-                    <Route path="/thankyou" element={<Thankyou />} />
-                    <Route path="/admin" element={<Admin />} />
-                    <Route path="/inventory" element={<Inventory />} />
-                </Routes>
-            </BrowserRouter>
+
+            <TransitionGroup>
+                <CSSTransition
+                    key={location.pathname}
+                    timeout={300}
+                    classNames="flip"
+                >
+                    <Routes location={location}>
+                        <Route path="/" element={<Welcome />} />
+                        <Route path="/info" element={<Info />} />
+                        <Route path="/infochoose" element={<InfoChoose />} />
+                        <Route path="/customize" element={<Customize />} />
+                        <Route path="/thankyou" element={<Thankyou />} />
+                        <Route path="/admin" element={<Admin />} />
+                        <Route path="/inventory" element={<Inventory />} />
+                    </Routes>
+                </CSSTransition>
+            </TransitionGroup>
         </MyContext.Provider>
     );
 }
 
-const BG = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -12333;
-    .pg_bg1 {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-    }
-    .pg_bg2 {
-        position: absolute;
-        height: calc(100% - 10px);
-        left: 50%;
-        top: 50%;
-        transform: Translate(-50%, -50%);
-        object-fit: cover;
-        z-index: 4;
-    }
-`;
 export default App;
