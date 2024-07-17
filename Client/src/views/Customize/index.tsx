@@ -493,31 +493,19 @@ const Customize: React.FC<Props> = () => {
                     console.log("in obejctmodify");
                 }
             });
+
             canvas.on("touch:gesture", function (e) {
-                if (e.self.state === "start") {
-                    this.lastScale = this.getZoom();
-                }
                 if (e.e.touches && e.e.touches.length === 2) {
-                    // Calculate the distance between the first two touches
-                    let distance = Math.sqrt(
-                        Math.pow(
-                            e.e.touches[0].clientX - e.e.touches[1].clientX,
-                            2
-                        ) +
-                            Math.pow(
-                                e.e.touches[0].clientY - e.e.touches[1].clientY,
-                                2
-                            )
-                    );
-                    if (!this.lastDistance) {
-                        this.lastDistance = distance;
+                    e.e.preventDefault();
+                    if (canvas.getActiveObject()) {
+                        canvas.getActiveObject().set("active", true);
                     }
 
-                    let scaleMultiplier = distance / this.lastDistance;
-                    let newScale = this.lastScale * scaleMultiplier;
-                    this.setZoom(newScale);
-                    this.requestRenderAll();
-                    this.lastDistance = distance;
+                    let scale = canvas.getZoom();
+                    scale *= e.self.scale;
+                    scale = Math.max(0.1, Math.min(10, scale)); // set min and max zoom levels
+                    canvas.setZoom(scale);
+                    canvas.requestRenderAll();
                 }
             });
 
