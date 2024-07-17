@@ -522,8 +522,8 @@ const Customize: React.FC<Props> = () => {
                 canvas.off("object:scaling", reorderCanvasObjects);
                 canvas.off("object:moving", reorderCanvasObjects);
                 canvas.off("object:modified", reorderCanvasObjects);
-                canvas.off("touch:gesture", reorderCanvasObjects);
-                canvas.off("touch:gestureend", reorderCanvasObjects);
+                canvas.off("touch:gesture");
+                canvas.off("touch:gestureend");
             };
         }
     }, [selGraphic]);
