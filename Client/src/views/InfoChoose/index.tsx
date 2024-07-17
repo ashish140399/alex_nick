@@ -123,7 +123,7 @@ const InfoChoose: React.FC<Props> = () => {
                     {pagetype === "selectitem" && (
                         <div className="selectwrapper">
                             <div
-                                className={`selectbox ${
+                                className={`selectbox tshirt ${
                                     itemDetails.selected === "tshirt"
                                         ? "active"
                                         : ""
@@ -135,7 +135,10 @@ const InfoChoose: React.FC<Props> = () => {
                                     })
                                 }
                             >
-                                <img src="images/common/tshirt.png" alt="" />
+                                <img
+                                    src="images/common/tshirtshow.png"
+                                    alt=""
+                                />
                             </div>
                             <div
                                 className={`selectbox ${
@@ -157,8 +160,12 @@ const InfoChoose: React.FC<Props> = () => {
                     {pagetype === "selectsize" && (
                         <div className="selectsizeWrapper">
                             <img
-                                src={`images/common/${itemDetails.selected}.png`}
-                                className="selecteditem"
+                                src={`images/common/${itemDetails.selected}${
+                                    itemDetails.selected === "tshirt"
+                                        ? "show"
+                                        : ""
+                                }.png`}
+                                className={`selecteditem ${itemDetails.selected}`}
                                 alt=""
                             />
                             <FormControl fullWidth>
@@ -326,6 +333,11 @@ const RowBox = styled.div`
                 width: 100%;
                 object-fit: contain;
             }
+            &.tshirt {
+                img {
+                    transform: Scale(1.3) !important;
+                }
+            }
             &.active {
                 border-radius: 20px;
                 border: 4px solid #edfe2f;
@@ -354,6 +366,9 @@ const Layout = styled.div`
             margin: auto;
             margin-bottom: 90px;
             margin-top: 120px;
+            &.tshirt {
+                transform: scale(1.2);
+            }
         }
     }
 `;
