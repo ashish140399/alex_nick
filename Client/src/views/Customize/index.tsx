@@ -672,6 +672,7 @@ const StyledFooter = styled(Footer)`
         line-height: normal;
         padding: 10px 16px 10px 16px;
         margin-top: -8px;
+        min-width: 400px;
     }
 `;
 const Layout = styled.div`
