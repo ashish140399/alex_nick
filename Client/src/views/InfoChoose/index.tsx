@@ -22,6 +22,7 @@ const InfoChoose: React.FC<Props> = () => {
         appDetails,
         itemDetails,
         setItemDetails,
+        bgimage,
     } = React.useContext(MyContext);
 
     const handleAcceptChange = (event: SelectChangeEvent) => {
@@ -114,7 +115,7 @@ const InfoChoose: React.FC<Props> = () => {
     }, []);
     return (
         <>
-            <Layout>
+            <Layout bgimage={bgimage}>
                 <RowBox>
                     <h1>
                         CHOOSE THE ITEM YOU
@@ -346,13 +347,15 @@ const RowBox = styled.div`
         }
     }
 `;
-const Layout = styled.div`
+const Layout = styled.div<{
+    bgimage: string;
+}>`
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     min-height: 100vh;
-    background: url(/images/common/bg.png);
+    background: url(${(props) => props.bgimage});
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

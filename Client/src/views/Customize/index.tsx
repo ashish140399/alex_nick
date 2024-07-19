@@ -26,6 +26,7 @@ const Customize: React.FC<Props> = () => {
         usagetime,
         userDetails,
         itemDetails,
+        bgimage,
     } = useContext(MyContext);
     // const [selcdesign, setSelcdesign] = useState(selectedCover);
     const [bgImage2, setBgImage2] = useState(null);
@@ -558,7 +559,7 @@ const Customize: React.FC<Props> = () => {
         <>
             {showloader && <LoaderAnimation />}
 
-            <Layout>
+            <Layout bgimage={bgimage}>
                 {screennum == 2 ? (
                     <h1 className="customize">
                         CUSTOMIZE YOUR{" "}
@@ -759,7 +760,9 @@ const StyledFooter = styled(Footer)`
         width: 50vw;
     }
 `;
-const Layout = styled.div`
+const Layout = styled.div<{
+    bgimage: string;
+}>`
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -768,7 +771,7 @@ const Layout = styled.div`
     max-width: 100vw;
     overflow: hidden;
     // padding-top: 66px;
-    background: url(/images/common/bg.png);
+    background: url(${(props) => props.bgimage});
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

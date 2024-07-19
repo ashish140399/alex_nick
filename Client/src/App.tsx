@@ -35,6 +35,8 @@ export const MyContext = createContext({
     setCustomizeInfo: (design) => {},
     selectedItem: "",
     setSelectedItem: (design) => {},
+    bgimage: null,
+    setBgmage: (design) => {},
     inventoryDetails: [],
     setInventoryDetails: (design) => {},
     usagetime: { start: new Date(), end: new Date() },
@@ -47,6 +49,20 @@ export const MyContext = createContext({
 });
 function App() {
     // const location = useLocation();
+    const [bgimage, setBgmage] = React.useState(null);
+    React.useEffect(() => {
+        const loadImage = async () => {
+            const response = await fetch("./images/common/bg.png");
+            const blob = await response.blob();
+            const src = URL.createObjectURL(blob);
+            setBgmage(src);
+        };
+
+        if (!bgimage) {
+            loadImage();
+        }
+    }, [bgimage]);
+    console.log("bgimage", bgimage);
     console.log(window.location.pathname);
     const [appDetails, setAppDetails] = React.useState({
         id: 4,
@@ -95,6 +111,8 @@ function App() {
                 appDetails,
                 itemDetails,
                 setItemDetails,
+                bgimage,
+                setBgmage,
             }}
         >
             <ToastContainer />
