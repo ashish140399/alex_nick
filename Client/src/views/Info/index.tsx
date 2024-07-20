@@ -187,6 +187,7 @@ const RowBox = styled.div`
         box-sizing: border-box;
         text-align: center;
         color: #fff;
+        font-family: Roc_Grotesk_Heavy;
         &::placeholder {
             color: rgba(112, 112, 112, 0.19);
             font-weight: 600;

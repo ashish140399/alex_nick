@@ -8,8 +8,9 @@ import axios from "axios";
 import { Footer } from "../../styles";
 import Countdown, { zeroPad } from "react-countdown";
 interface Props {}
-
+// const timer = Date.now() + 90000;
 const Customize: React.FC<Props> = () => {
+    const [timer, setTimer] = useState(Date.now() + 90000);
     const [selGraphic, setSelGraphic] = useState([]);
     const [graphicinventory, setGraphicinventory] = useState([]);
     const [canvasObjects, setCanvasObjects] = useState([]);
@@ -192,8 +193,8 @@ const Customize: React.FC<Props> = () => {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 600,
-                        height: 927.27,
+                        width: 630,
+                        height: 973.6335,
                     })
                 );
             }
@@ -378,11 +379,11 @@ const Customize: React.FC<Props> = () => {
                     // Desired default width and height in pixels
                     let defaultWidth, defaultHeight;
                     if (itemDetails.selected === "tshirt") {
-                        defaultWidth = 200;
-                        defaultHeight = 200;
+                        defaultWidth = 220;
+                        defaultHeight = 220;
                     } else {
-                        defaultWidth = 120;
-                        defaultHeight = 120;
+                        defaultWidth = 140;
+                        defaultHeight = 140;
                     }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
@@ -570,16 +571,15 @@ const Customize: React.FC<Props> = () => {
                 ) : (
                     <h1 className="customize">CONFIRM YOUR DESIGN</h1>
                 )}
-                <TimeBox>
-                    <div className="timelimit">TIME LIMIT</div>
-                    <div className="timeleft">
-                        <Countdown
-                            date={Date.now() + 90000}
-                            renderer={renderer}
-                        />
-                        <span>SEC</span>
-                    </div>
-                </TimeBox>
+                {screennum === 2 && (
+                    <TimeBox>
+                        <div className="timelimit">TIME LIMIT</div>
+                        <div className="timeleft">
+                            <Countdown date={timer} renderer={renderer} />
+                            <span>SEC</span>
+                        </div>
+                    </TimeBox>
+                )}
                 <Wrapper>
                     <TopWrapper
                         ref={rightWrapperRef}
