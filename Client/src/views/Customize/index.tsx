@@ -689,6 +689,7 @@ const Customize: React.FC<Props> = () => {
                                 setDesignfinalised(false);
                                 setTimer(Date.now() + timertime);
                             }}
+                            style={{ opacity: 0 }}
                         >
                             <img src="images/common/button_back.png" alt="" />
                         </button>
