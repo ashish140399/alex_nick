@@ -10,7 +10,8 @@ import Countdown, { zeroPad } from "react-countdown";
 interface Props {}
 // const timer = Date.now() + 90000;
 const Customize: React.FC<Props> = () => {
-    const [timer, setTimer] = useState(Date.now() + 90000);
+    const timertime = 90000;
+    const [timer, setTimer] = useState(Date.now() + timertime);
     const [selGraphic, setSelGraphic] = useState([]);
     const [graphicinventory, setGraphicinventory] = useState([]);
     const [canvasObjects, setCanvasObjects] = useState([]);
@@ -33,6 +34,13 @@ const Customize: React.FC<Props> = () => {
     const [bgImage2, setBgImage2] = useState(null);
     const [bgImage3, setBgImage3] = useState(null);
     const [screennum, setScreennum] = useState(2);
+    console.log(screennum);
+    // useEffect(() => {
+    //     if (screennum === 2) {
+    //         setTimer(Date.now() + 3000);
+    //     }
+    // }, [screennum]);
+    console.log("Setitimer", setTimer);
     var deleteIcon =
         "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Ebene_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='595.275px' height='595.275px' viewBox='200 215 230 470' xml:space='preserve'%3E%3Ccircle style='fill:%23F44336;' cx='299.76' cy='439.067' r='218.516'/%3E%3Cg%3E%3Crect x='267.162' y='307.978' transform='matrix(0.7071 -0.7071 0.7071 0.7071 -222.6202 340.6915)' style='fill:white;' width='65.545' height='262.18'/%3E%3Crect x='266.988' y='308.153' transform='matrix(0.7071 0.7071 -0.7071 0.7071 398.3889 -83.3116)' style='fill:white;' width='65.544' height='262.179'/%3E%3C/g%3E%3C/svg%3E";
 
@@ -548,10 +556,20 @@ const Customize: React.FC<Props> = () => {
         }
     }, [selGraphic]);
 
-    const renderer = ({ minutes, seconds, completed }) => {
+    const [completed, setCompleted] = useState(false);
+
+    // Using useEffect to handle completion state changes
+    useEffect(() => {
         if (completed) {
             setScreennum(3);
             setDesignfinalised(true);
+            setCompleted(false);
+        }
+    }, [completed]); // Only re-run the effect if completed changes
+    const renderer = ({ minutes, seconds, completed }) => {
+        if (completed) {
+            setCompleted(true);
+            return null; // Render nothing or some completion UI
         } else {
             return <>{zeroPad(minutes * 60 + seconds)}</>;
         }
@@ -669,9 +687,9 @@ const Customize: React.FC<Props> = () => {
                             onClick={() => {
                                 setScreennum(2);
                                 setDesignfinalised(false);
+                                setTimer(Date.now() + timertime);
                             }}
                         >
-                            {" "}
                             <img src="images/common/button_back.png" alt="" />
                         </button>
 
