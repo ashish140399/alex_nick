@@ -37,6 +37,8 @@ export const MyContext = createContext({
     setSelectedItem: (design) => {},
     bgimage: null,
     setBgmage: (design) => {},
+    stickers: [],
+    setStickers: (design) => {},
     inventoryDetails: [],
     setInventoryDetails: (design) => {},
     usagetime: { start: new Date(), end: new Date() },
@@ -50,6 +52,31 @@ export const MyContext = createContext({
 function App() {
     // const location = useLocation();
     const [bgimage, setBgmage] = React.useState(null);
+    const [stickers, setStickers] = React.useState([]);
+    React.useEffect(() => {
+        // Dynamically generate the array of sticker paths
+        const stickerPaths = Array.from(
+            { length: 19 },
+            (_, i) => `./images/graphics/${i}.png`
+        );
+
+        const loadSticker = async (stickerPath) => {
+            const response = await fetch(stickerPath);
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+        };
+
+        const loadStickers = async () => {
+            const promises = stickerPaths.map((path) => loadSticker(path));
+            const loadedStickers = await Promise.all(promises);
+            setStickers(loadedStickers);
+        };
+
+        // Trigger loading of stickers if not already loaded
+        if (stickers.length === 0) {
+            loadStickers();
+        }
+    }, [stickers]);
     React.useEffect(() => {
         const loadImage = async () => {
             const response = await fetch("./images/common/bg.png");
@@ -62,7 +89,7 @@ function App() {
             loadImage();
         }
     }, [bgimage]);
-    console.log("bgimage", bgimage);
+    // console.log("bgimage", bgimage);
     console.log(window.location.pathname);
     const [appDetails, setAppDetails] = React.useState({
         id: 4,
@@ -87,7 +114,7 @@ function App() {
             border: null,
         },
     });
-
+    // console.log("stickers", stickers);
     const [userDetails, setUserDetails] = React.useState({
         firstName: "",
         phonenumber: "",
@@ -113,6 +140,8 @@ function App() {
                 setItemDetails,
                 bgimage,
                 setBgmage,
+                stickers,
+                setStickers,
             }}
         >
             <ToastContainer />

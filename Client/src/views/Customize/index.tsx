@@ -29,6 +29,7 @@ const Customize: React.FC<Props> = () => {
         userDetails,
         itemDetails,
         bgimage,
+        stickers,
     } = useContext(MyContext);
     // const [selcdesign, setSelcdesign] = useState(selectedCover);
     const [bgImage2, setBgImage2] = useState(null);
@@ -375,13 +376,15 @@ const Customize: React.FC<Props> = () => {
         }
     }, [canvas]);
 
+    console.log("selGraphic", selGraphic, selGraphic[selGraphic.length - 1]);
     // update the canvas with selected artboard and refresh canvas
     useEffect(() => {
         if (canvas) {
             if (objectadding) {
-                let imgurl = `images/graphics/${
-                    selGraphic[selGraphic.length - 1]
-                }.png`;
+                // let imgurl = `images/graphics/${
+                //     selGraphic[selGraphic.length - 1]
+                // }.png`;
+                let imgurl = stickers[selGraphic[selGraphic.length - 1]];
 
                 fabric.Image.fromURL(imgurl, (img) => {
                     // Desired default width and height in pixels
