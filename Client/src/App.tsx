@@ -97,11 +97,11 @@ function App() {
     React.useEffect(() => {
         // Dynamically generate the array of sticker paths
         const stickerPaths = Array.from(
-            { length: 19 },
+            { length: 20 },
             (_, i) => `./images/graphics/${i}.png`
         );
         const stickerbuttonPaths = Array.from(
-            { length: 19 },
+            { length: 20 },
             (_, i) => `./images/graphics/${i}_btn.png`
         );
 
