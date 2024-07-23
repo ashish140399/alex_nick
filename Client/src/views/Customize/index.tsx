@@ -30,6 +30,7 @@ const Customize: React.FC<Props> = () => {
         itemDetails,
         bgimage,
         stickers,
+        flipFlopTemplates,
     } = useContext(MyContext);
     // const [selcdesign, setSelcdesign] = useState(selectedCover);
     const [bgImage2, setBgImage2] = useState(null);
@@ -321,9 +322,19 @@ const Customize: React.FC<Props> = () => {
                     canvas.renderAll();
                 });
             } else if (itemDetails.selected === "flipflop") {
-                let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
-                let imgurl1 = `images/templates/flipflop/${itemDetails.size}/right.png`;
-                let imgurl2 = `images/templates/flipflop/${itemDetails.size}/left.png`;
+                // let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
+                // let imgurl1 = `images/templates/flipflop/${itemDetails.size}/right.png`;
+                // let imgurl2 = `images/templates/flipflop/${itemDetails.size}/left.png`;
+                let imgurl = flipFlopTemplates?.find(
+                    (template) => template[itemDetails.size]
+                )[itemDetails.size].bg;
+                let imgurl1 = flipFlopTemplates?.find(
+                    (template) => template[itemDetails.size]
+                )[itemDetails.size].right;
+                let imgurl2 = flipFlopTemplates?.find(
+                    (template) => template[itemDetails.size]
+                )[itemDetails.size].left;
+
                 let topshift = 0;
                 fabric.Image.fromURL(imgurl, (bgimage) => {
                     canvas.setBackgroundImage(

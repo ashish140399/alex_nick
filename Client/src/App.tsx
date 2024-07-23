@@ -36,7 +36,9 @@ export const MyContext = createContext({
     selectedItem: "",
     setSelectedItem: (design) => {},
     bgimage: null,
-    setBgmage: (design) => {},
+    setBgimage: (design) => {},
+    flipFlopTemplates: null,
+    setFlipFlopTemplates: (design) => {},
     stickers: [],
     setStickers: (design) => {},
     inventoryDetails: [],
@@ -51,8 +53,43 @@ export const MyContext = createContext({
 });
 function App() {
     // const location = useLocation();
-    const [bgimage, setBgmage] = React.useState(null);
-    const [stickers, setStickers] = React.useState([]);
+    const [bgimage, setBgimage] = React.useState(() => {
+        const savedBgimage = localStorage.getItem("bgimage");
+        return savedBgimage ? JSON.parse(savedBgimage) : null;
+    });
+
+    const [stickers, setStickers] = React.useState(() => {
+        const savedStickers = localStorage.getItem("stickers");
+        return savedStickers ? JSON.parse(savedStickers) : [];
+    });
+
+    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
+        const savedFlipFlopTemplates =
+            localStorage.getItem("flipFlopTemplates");
+        return savedFlipFlopTemplates
+            ? JSON.parse(savedFlipFlopTemplates)
+            : null;
+    });
+    React.useEffect(() => {
+        localStorage.setItem("bgimage", JSON.stringify(bgimage));
+    }, [bgimage]);
+
+    React.useEffect(() => {
+        localStorage.setItem("stickers", JSON.stringify(stickers));
+    }, [stickers]);
+
+    React.useEffect(() => {
+        localStorage.setItem(
+            "flipFlopTemplates",
+            JSON.stringify(flipFlopTemplates)
+        );
+    }, [flipFlopTemplates]);
+
+    console.log(
+        flipFlopTemplates,
+
+        flipFlopTemplates?.find((template) => template.KS).KS.bg
+    );
     React.useEffect(() => {
         // Dynamically generate the array of sticker paths
         const stickerPaths = Array.from(
@@ -71,9 +108,32 @@ function App() {
             const loadedStickers = await Promise.all(promises);
             setStickers(loadedStickers);
         };
+        const baseflipflopPath = "./images/templates/flipflop/";
+        const flipfloppaths = ["AL", "AM", "AS", "KL", "KM", "KS"];
+
+        const loadflipflop = async (path, type) => {
+            const response = await fetch(
+                `${baseflipflopPath}${path}/${type}.png`
+            );
+            const blob = await response.blob();
+            return URL.createObjectURL(blob);
+        };
+
+        const loadflipfloptemplates = async () => {
+            const promises = flipfloppaths.map(async (path) => ({
+                [path]: {
+                    bg: await loadflipflop(path, "bg"),
+                    left: await loadflipflop(path, "left"),
+                    right: await loadflipflop(path, "right"),
+                },
+            }));
+            const loadedflipfloptemplates = await Promise.all(promises);
+            setFlipFlopTemplates(loadedflipfloptemplates);
+        };
 
         // Trigger loading of stickers if not already loaded
         if (stickers.length === 0) {
+            loadflipfloptemplates();
             loadStickers();
         }
     }, [stickers]);
@@ -82,7 +142,7 @@ function App() {
             const response = await fetch("./images/common/bg.png");
             const blob = await response.blob();
             const src = URL.createObjectURL(blob);
-            setBgmage(src);
+            setBgimage(src);
         };
 
         if (!bgimage) {
@@ -139,9 +199,11 @@ function App() {
                 itemDetails,
                 setItemDetails,
                 bgimage,
-                setBgmage,
+                setBgimage,
                 stickers,
                 setStickers,
+                flipFlopTemplates,
+                setFlipFlopTemplates,
             }}
         >
             <ToastContainer />
