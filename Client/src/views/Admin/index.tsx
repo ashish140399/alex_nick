@@ -261,7 +261,7 @@ const InnerTableRow = ({ res, index }) => {
         });
 
         // Set canvas background color
-        canvas.backgroundColor = "white";
+        canvas.backgroundColor = "transparent";
 
         // Create A4 size rectangle with black border
         const a4SizeRect = new fabric.Rect({
@@ -271,8 +271,8 @@ const InnerTableRow = ({ res, index }) => {
             originY: "top",
             top: 50 / 2, // Adjust the vertical position of the text
             left: 50 / 2,
-            fill: "white", // You can change the fill color if needed
-            stroke: "black",
+            fill: "transparent", // You can change the fill color if needed
+            stroke: "transparent",
             strokeWidth: 8, // Adjust border width as needed
             selectable: false,
             evented: false,
@@ -313,7 +313,7 @@ const InnerTableRow = ({ res, index }) => {
                                         fontFamily: "Gin",
                                         selectable: false,
                                         evented: false,
-                                        // scaleX: -1,
+                                        scaleX: -1,
                                     }
                                 );
                                 canvas.centerObject(text);
@@ -329,6 +329,7 @@ const InnerTableRow = ({ res, index }) => {
                                     top: 0,
                                     width: canvas.width,
                                     height: canvas.height,
+                                    multiplier: 2,
                                 });
                                 // console.log(tempCanvas.width, highResDataURL);
 
@@ -405,12 +406,10 @@ const InnerTableRow = ({ res, index }) => {
                 }}
             >
                 <TableCell component="th" scope="row">
-                    {index + 1}
+                    {res.id}
                 </TableCell>
 
-                <TableCell align="center">
-                    {res.userdetails.firstName}
-                </TableCell>
+                <TableCell align="left">{res.userdetails.firstName}</TableCell>
                 {/* <TableCell align="center">{res.userdetails.phonenumber}</TableCell> */}
                 {/* <TableCell align="center">{res.userdetails.phonenumber}</TableCell> */}
                 {/* <TableCell align="center">
