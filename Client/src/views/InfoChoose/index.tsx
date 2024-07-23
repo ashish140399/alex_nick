@@ -209,8 +209,9 @@ const InfoChoose: React.FC<Props> = () => {
                                                         : ""
                                                 }`}
                                             >
-                                                {item.item_name}{" "}
-                                                {renderContent(item.item_name)}
+                                                {item.item_name}
+                                                {/* {" "}
+                                                {renderContent(item.item_name)} */}
                                             </MenuItem>
                                         ))}
                                 </Select>
@@ -312,11 +313,11 @@ const RowBox = styled.div`
     }
     .MuiInputBase-formControl {
         color: #fff !important;
-        font-size: 54px !important;
+        font-size: 50px !important;
         background: #000;
         font-family: Roc_Grotesk_Heavy;
         font-weight: 300 !important;
-        width: 40vw !important;
+        width: 53vw !important;
         display: block;
         margin: auto;
         .MuiInputBase-input {
@@ -327,9 +328,10 @@ const RowBox = styled.div`
             border-radius: 0 !important;
         }
         .MuiSvgIcon-root {
-            font-size: 160px !important;
+            font-size: 140px !important;
             color: #fff !important;
             margin-right: -20px;
+            margin-top: -5px;
         }
     }
     .selectwrapper {
