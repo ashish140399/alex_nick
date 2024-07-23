@@ -39,7 +39,7 @@ export const MyContext = createContext({
     setBgimage: (design) => {},
     flipFlopTemplates: null,
     setFlipFlopTemplates: (design) => {},
-    stickers: [],
+    stickers: { stick: [], btn: [] },
     setStickers: (design) => {},
     inventoryDetails: [],
     setInventoryDetails: (design) => {},
@@ -52,24 +52,33 @@ export const MyContext = createContext({
     setItemDetails: (design) => {},
 });
 function App() {
+    // React.useEffect(() => {
+    //     localStorage.clear();
+    // }, []);
     // const location = useLocation();
-    const [bgimage, setBgimage] = React.useState(() => {
-        const savedBgimage = localStorage.getItem("bgimage");
-        return savedBgimage ? JSON.parse(savedBgimage) : null;
-    });
+    const [bgimage, setBgimage] = React.useState(null);
+    const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
+    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
 
-    const [stickers, setStickers] = React.useState(() => {
-        const savedStickers = localStorage.getItem("stickers");
-        return savedStickers ? JSON.parse(savedStickers) : [];
-    });
+    // const [bgimage, setBgimage] = React.useState(() => {
+    //     const savedBgimage = localStorage.getItem("bgimage");
+    //     return savedBgimage ? JSON.parse(savedBgimage) : null;
+    // });
 
-    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
-        const savedFlipFlopTemplates =
-            localStorage.getItem("flipFlopTemplates");
-        return savedFlipFlopTemplates
-            ? JSON.parse(savedFlipFlopTemplates)
-            : null;
-    });
+    // const [stickers, setStickers] = React.useState(() => {
+    //     const savedStickers = localStorage.getItem("stickers");
+    //     return savedStickers
+    //         ? JSON.parse(savedStickers)
+    //         : { stick: [], btn: [] };
+    // });
+
+    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
+    //     const savedFlipFlopTemplates =
+    //         localStorage.getItem("flipFlopTemplates");
+    //     return savedFlipFlopTemplates
+    //         ? JSON.parse(savedFlipFlopTemplates)
+    //         : null;
+    // });
     React.useEffect(() => {
         localStorage.setItem("bgimage", JSON.stringify(bgimage));
     }, [bgimage]);
@@ -85,16 +94,15 @@ function App() {
         );
     }, [flipFlopTemplates]);
 
-    console.log(
-        flipFlopTemplates,
-
-        flipFlopTemplates?.find((template) => template.KS).KS.bg
-    );
     React.useEffect(() => {
         // Dynamically generate the array of sticker paths
         const stickerPaths = Array.from(
             { length: 19 },
             (_, i) => `./images/graphics/${i}.png`
+        );
+        const stickerbuttonPaths = Array.from(
+            { length: 19 },
+            (_, i) => `./images/graphics/${i}_btn.png`
         );
 
         const loadSticker = async (stickerPath) => {
@@ -106,7 +114,12 @@ function App() {
         const loadStickers = async () => {
             const promises = stickerPaths.map((path) => loadSticker(path));
             const loadedStickers = await Promise.all(promises);
-            setStickers(loadedStickers);
+
+            const promisesbtn = stickerbuttonPaths.map((path) =>
+                loadSticker(path)
+            );
+            const loadedStickersbtn = await Promise.all(promisesbtn);
+            setStickers({ stick: loadedStickers, btn: loadedStickersbtn });
         };
         const baseflipflopPath = "./images/templates/flipflop/";
         const flipfloppaths = ["AL", "AM", "AS", "KL", "KM", "KS"];
@@ -132,7 +145,7 @@ function App() {
         };
 
         // Trigger loading of stickers if not already loaded
-        if (stickers.length === 0) {
+        if (stickers?.btn?.length === 0) {
             loadflipfloptemplates();
             loadStickers();
         }
@@ -174,7 +187,7 @@ function App() {
             border: null,
         },
     });
-    // console.log("stickers", stickers);
+    console.log("stickers", stickers);
     const [userDetails, setUserDetails] = React.useState({
         firstName: "",
         phonenumber: "",

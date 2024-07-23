@@ -113,6 +113,15 @@ const InfoChoose: React.FC<Props> = () => {
             setPagetype("selectitem");
         }
     }, []);
+    const renderContent = (name) => {
+        if (name === "AS") {
+            return <>(ADULT SMALL)</>;
+        } else if (name === "AM") {
+            return <>(ADULT MEDIUM)</>;
+        } else if (name === "AL") {
+            return <>(ADULT LARGE)</>;
+        }
+    };
     return (
         <>
             <Layout bgimage={bgimage}>
@@ -200,7 +209,8 @@ const InfoChoose: React.FC<Props> = () => {
                                                         : ""
                                                 }`}
                                             >
-                                                {item.item_name}
+                                                {item.item_name}{" "}
+                                                {renderContent(item.item_name)}
                                             </MenuItem>
                                         ))}
                                 </Select>

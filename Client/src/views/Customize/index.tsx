@@ -395,7 +395,8 @@ const Customize: React.FC<Props> = () => {
                 // let imgurl = `images/graphics/${
                 //     selGraphic[selGraphic.length - 1]
                 // }.png`;
-                let imgurl = stickers[selGraphic[selGraphic.length - 1]];
+                let imgurl =
+                    stickers["stick"][selGraphic[selGraphic.length - 1]];
 
                 fabric.Image.fromURL(imgurl, (img) => {
                     // Desired default width and height in pixels
@@ -658,7 +659,14 @@ const Customize: React.FC<Props> = () => {
                                                 }
                                             >
                                                 <img
-                                                    src={`images/graphics/${item.graphic_img_name}_btn.png`}
+                                                    // src={`images/graphics/${item.graphic_img_name}_btn.png`}
+                                                    src={`${
+                                                        stickers["btn"][
+                                                            Number(
+                                                                item.graphic_img_name
+                                                            )
+                                                        ]
+                                                    }`}
                                                     alt=""
                                                 />
                                             </SelectorBox>
