@@ -20,7 +20,7 @@ const Customize: React.FC<Props> = () => {
     const navigate = useNavigate();
     const [designfinalised, setDesignfinalised] = useState(false);
     const [objectadding, setObjectadding] = useState(true);
-
+p
     const {
         selectedItem,
 
@@ -518,7 +518,7 @@ const Customize: React.FC<Props> = () => {
             // Add event listener to reorder objects when new object is added
             canvas.on("object:added", (e) => {
                 if (bgImage2) {
-                   // reorderCanvasObjects(e);
+                    reorderCanvasObjects(e);
                 }
             });
             canvas.on("mouse:down", (e) => {
