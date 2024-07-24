@@ -23,7 +23,7 @@ const Customize: React.FC<Props> = () => {
 
     const {
         selectedItem,
-        appDetails,
+
         setUsagetime,
         usagetime,
         userDetails,
@@ -241,8 +241,12 @@ const Customize: React.FC<Props> = () => {
     });
 
     const reorderCanvasObjects = (e) => {
-        if (bgImage2 && e.target !== bgImage2) {
+        if (
+            (bgImage2 && e.target !== bgImage2) ||
+            (bgImage3 && e.target !== bgImage3)
+        ) {
             canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
+            canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
             canvas.discardActiveObject();
             canvas.renderAll();
         }
@@ -253,14 +257,14 @@ const Customize: React.FC<Props> = () => {
             // canvas.clear();
             // canvas.renderAll();
             if (itemDetails.selected === "flipflop") {
-                if (itemDetails.size === "KS") {
+                if (itemDetails.size === "KIDS SMALL") {
                     var zoom = canvas.getZoom();
                     zoom *= 1.35; // Increase the zoom factor by 20%
                     canvas.zoomToPoint(
                         new fabric.Point(canvas.width / 2, canvas.height / 2),
                         zoom
                     );
-                } else if (itemDetails.size === "KL") {
+                } else if (itemDetails.size === "KIDS LARGE") {
                     var zoom = canvas.getZoom();
                     zoom *= 1.1; // Increase the zoom factor by 20%
                     canvas.zoomToPoint(
@@ -324,7 +328,7 @@ const Customize: React.FC<Props> = () => {
             } else if (itemDetails.selected === "flipflop") {
                 // let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
                 // let imgurl1 = `images/templates/flipflop/${itemDetails.size}/right.png`;
-                // let imgurl2 = `images/templates/flipflop/${itemDetails.size}/left.png`;
+                let imgurloverlay = `images/templates/flipflop/KIDS SMALL/bg_overlay.png`;
                 let imgurl = flipFlopTemplates?.find(
                     (template) => template[itemDetails.size]
                 )[itemDetails.size].bg;
@@ -361,7 +365,7 @@ const Customize: React.FC<Props> = () => {
                         setBgImage2(bgimage2);
                         // Move the image to the top
                         canvas.moveTo(bgimage2, canvas.getObjects().length - 1);
-                        fabric.Image.fromURL(imgurl2, (bgimage3) => {
+                        fabric.Image.fromURL(imgurloverlay, (bgimage3) => {
                             bgimage3.set({
                                 scaleX: canvas.width / bgimage3.width,
                                 scaleY: canvas.height / bgimage3.height,
@@ -369,17 +373,30 @@ const Customize: React.FC<Props> = () => {
                                 evented: false, // Disables events on the image
                                 top: topshift,
                             });
-                            // bgimage3.name = "borderImage3";
+                            bgimage3.name = "borderImage3";
                             // Add the second image to the canvas
                             canvas.add(bgimage3);
                             // Store bgimage2 in state
-                            // setBgImage3(bgimage3);
+                            setBgImage3(bgimage3);
                             // Move the image to the top
-                            // canvas.moveTo(
-                            //     bgimage3,
-                            //     canvas.getObjects().length - 2
-                            // );
-                            canvas.renderAll();
+                            canvas.moveTo(
+                                bgimage3,
+                                canvas.getObjects().length - 2
+                            );
+                            fabric.Image.fromURL(imgurl2, (bgimage4) => {
+                                bgimage4.set({
+                                    scaleX: canvas.width / bgimage4.width,
+                                    scaleY: canvas.height / bgimage4.height,
+                                    selectable: false, // Makes the image non-selectable
+                                    evented: false, // Disables events on the image
+                                    top: topshift,
+                                });
+                                bgimage4.name = "borderImage4";
+                                // Add the second image to the canvas
+                                canvas.add(bgimage4);
+
+                                canvas.renderAll();
+                            });
                         });
                     });
                 });

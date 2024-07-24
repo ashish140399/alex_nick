@@ -18,11 +18,6 @@ export const MyContext = createContext({
         phonenumber: "",
     },
     setUserDetails: (design) => {},
-    appDetails: {
-        id: 1,
-        idname: "",
-        name: "",
-    },
     customizeInfo: {
         selected: "",
 
@@ -122,7 +117,13 @@ function App() {
             setStickers({ stick: loadedStickers, btn: loadedStickersbtn });
         };
         const baseflipflopPath = "./images/templates/flipflop/";
-        const flipfloppaths = ["AL", "AM", "AS", "KL", "KM", "KS"];
+        const flipfloppaths = [
+            "ADULT LARGE",
+            "ADULT MEDIUM",
+            "ADULT SMALL",
+            "KIDS LARGE",
+            "KIDS SMALL",
+        ];
 
         const loadflipflop = async (path, type) => {
             const response = await fetch(
@@ -164,14 +165,9 @@ function App() {
     }, [bgimage]);
     // console.log("bgimage", bgimage);
     console.log(window.location.pathname);
-    const [appDetails, setAppDetails] = React.useState({
-        id: 4,
-        idname: "app4",
-        name: "Gov Ball",
-    });
     const [itemDetails, setItemDetails] = React.useState({
-        selected: "",
-        size: "",
+        selected: "flipflop",
+        size: "KIDS SMALL",
     });
     const [inventoryDetails, setInventoryDetails] = React.useState([]);
     const [selectedItem, setSelectedItem] = React.useState("");
@@ -208,7 +204,7 @@ function App() {
                 setInventoryDetails,
                 usagetime,
                 setUsagetime,
-                appDetails,
+
                 itemDetails,
                 setItemDetails,
                 bgimage,

@@ -19,7 +19,6 @@ const InfoChoose: React.FC<Props> = () => {
     const {
         selectedItem,
         setSelectedItem,
-        appDetails,
         itemDetails,
         setItemDetails,
         bgimage,

@@ -45,7 +45,7 @@ interface Props {}
 
 const Inventory: React.FC<Props> = () => {
     const [inventoryres, setInventoryres] = React.useState(null);
-    const { appDetails } = React.useContext(MyContext);
+
     const fetchInventory = () => {
         axios
             .get(`${process.env.REACT_APP_API_URL}/api/fetchinventory`)

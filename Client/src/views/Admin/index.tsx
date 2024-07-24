@@ -519,7 +519,6 @@ const InnerTableRow = ({ res, index }) => {
 const Admin: React.FC<Props> = () => {
     const [dbres, setDbres] = React.useState(null);
     const [showadmin, setShowadmin] = React.useState(true);
-    const { appDetails } = React.useContext(MyContext);
     const itemsPerPage = 50;
     const [currentData, setCurrentData] = React.useState(null);
     const [page, setPage] = React.useState(1);
