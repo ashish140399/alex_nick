@@ -91,6 +91,59 @@ const Customize: React.FC<Props> = () => {
             }
         }
     };
+
+    async function processCanvas(itemDetails, canvas) {
+        let dataURLpng;
+        if (itemDetails.selected === "tshirt") {
+            const newCanvas = new fabric.Canvas("maskcanvas");
+            const newmultiplier = 4.04;
+            newCanvas.setDimensions({
+                width: canvas.width * newmultiplier,
+                height: canvas.height * newmultiplier,
+            });
+
+            try {
+                await new Promise((resolve, reject) => {
+                    fabric.Image.fromURL(
+                        canvas.toDataURL(),
+                        function (img) {
+                            img.scaleToWidth(newCanvas.width);
+                            img.scaleToHeight(newCanvas.height);
+                            newCanvas.add(img);
+                            newCanvas.renderAll();
+                            resolve(newCanvas); // Resolve the promise without parameters
+                        },
+                        {
+                            crossOrigin: "anonymous",
+                        }
+                    );
+                });
+
+                // Export the new canvas to PNG after the image is added and rendered
+                dataURLpng = newCanvas.toDataURL({
+                    format: "png",
+                    quality: 1,
+                    multiplier: 1,
+                });
+                console.log(dataURLpng); // Now dataURLpng is ready to be used
+            } catch (error) {
+                console.error("Failed to load or process image", error);
+            }
+        } else {
+            if (bgImage3) {
+                // Remove the image from the canvas
+                canvas.remove(bgImage3);
+                dataURLpng = await canvas.toDataURL({
+                    format: "png",
+                    quality: 10,
+                    multiplier: 3.22,
+                });
+            }
+        }
+
+        return dataURLpng; // Return the data URL for further processing or output
+    }
+
     const downloadimage = async () => {
         // URL of the new image to replace bgimage2 with
         // const newImageUrl = `images/templates/Borders/${appDetails.idname}/${selectedItem}_bord.png`;
@@ -98,49 +151,8 @@ const Customize: React.FC<Props> = () => {
         // Replace bgimage2 with the new image, then download
         // updateBgImage2Url(newImageUrl, async () => {
         if (canvas) {
-            var dataURLpng;
-            if (itemDetails.selected === "tshirt") {
-                // Create a new Fabric canvas instead of a standard HTML5 canvas
-                const newCanvas = new fabric.Canvas("maskcanvas");
-                const newmultiplier = 4.04;
-                newCanvas.setDimensions({
-                    width: canvas.width * newmultiplier, // Multiply original canvas width by 2
-                    height: canvas.height * newmultiplier, // Multiply original canvas height by 2
-                });
-                try {
-                    await new Promise((resolve, reject) => {
-                        fabric.Image.fromURL(
-                            canvas.toDataURL(),
-                            function (img) {
-                                // Scale the image
-                                img.scaleToWidth(newCanvas.width);
-                                img.scaleToHeight(newCanvas.height);
-                                newCanvas.add(img); // Add the scaled image to the Fabric canvas
-                                newCanvas.renderAll(); // Ensure all renderings are applied
-                                resolve(newCanvas); // Resolve the promise after rendering
-                            },
-                            {
-                                crossOrigin: "anonymous", // Add if dealing with CORS issues
-                            }
-                        );
-                    });
-
-                    // Export the new canvas to PNG
-                    dataURLpng = newCanvas.toDataURL({
-                        format: "png",
-                        quality: 1, // Note: quality parameter should be between 0 (low) and 1 (high) for Fabric.js
-                        multiplier: 1,
-                    });
-                } catch (error) {
-                    console.error("Failed to load or process image", error);
-                }
-            } else {
-                dataURLpng = await canvas.toDataURL({
-                    format: "png",
-                    quality: 10,
-                    multiplier: 3.22,
-                });
-            }
+            // var dataURLpng;
+            const dataURLpng = await processCanvas(itemDetails, canvas);
             // const modifiedSVG = base64ToSVG(
             //     dataURLpng,
             //     canvas.width,
