@@ -503,8 +503,8 @@ const Customize: React.FC<Props> = () => {
                     canvas.add(img);
                     canvas.centerObject(img);
                     img.set({
-                        left: img.left + 50,
-                        top: img.top - 50,
+                        left: img.left + 70,
+                        top: img.top - 60,
                     });
                 });
             }
@@ -642,8 +642,8 @@ const Customize: React.FC<Props> = () => {
                 canvas.off("object:scaling", reorderCanvasObjects);
                 canvas.off("object:moving", reorderCanvasObjects);
                 canvas.off("object:modified", reorderCanvasObjects);
-                canvas.off("touch:gesture");
-                canvas.off("touch:gestureend");
+                // canvas.off("touch:gesture");
+                // canvas.off("touch:gestureend");
             };
         }
     }, [selGraphic]);
