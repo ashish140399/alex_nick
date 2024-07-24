@@ -518,7 +518,7 @@ const Customize: React.FC<Props> = () => {
             // Add event listener to reorder objects when new object is added
             canvas.on("object:added", (e) => {
                 if (bgImage2) {
-                    reorderCanvasObjects(e);
+                   // reorderCanvasObjects(e);
                 }
             });
             canvas.on("mouse:down", (e) => {
@@ -548,10 +548,10 @@ const Customize: React.FC<Props> = () => {
                 paddingRight = 0;
                 paddingLeft = 0;
             } else {
-                paddingTop = 27;
-                paddingBottom = 38;
-                paddingRight = 22;
-                paddingLeft = 22;
+                paddingTop = 0;
+                paddingBottom = 0;
+                paddingRight = 0;
+                paddingLeft = 0;
             }
             canvas.on("object:moving", function (e) {
                 const target = e.target;
