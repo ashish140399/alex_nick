@@ -98,11 +98,38 @@ const Customize: React.FC<Props> = () => {
         // Replace bgimage2 with the new image, then download
         // updateBgImage2Url(newImageUrl, async () => {
         if (canvas) {
-            var dataURLpng = await canvas.toDataURL({
-                format: "png",
-                quality: 10,
-                multiplier: 3.22,
-            });
+            var dataURLpng;
+            if (itemDetails.selected === "tshirt") {
+                // Create a new Fabric canvas instead of a standard HTML5 canvas
+                const newCanvas = new fabric.Canvas("maskcanvas");
+                const newmultiplier = 5.23;
+                newCanvas.setDimensions({
+                    width: canvas.width * newmultiplier, // Multiply original canvas width by 2
+                    height: canvas.height * newmultiplier, // Multiply original canvas height by 2
+                });
+
+                // Draw the existing canvas onto the new Fabric canvas
+                // First, convert the existing canvas to a Fabric image
+                fabric.Image.fromURL(canvas.toDataURL(), function (img) {
+                    // Scale the image
+                    img.scaleToWidth(newCanvas.width);
+                    img.scaleToHeight(newCanvas.height);
+                    newCanvas.add(img); // Add the scaled image to the Fabric canvas
+                });
+
+                // Export the new canvas to PNG
+                dataURLpng = newCanvas.toDataURL({
+                    format: "png",
+                    quality: 1, // Note: quality parameter should be between 0 (low) and 1 (high) for Fabric.js
+                    multiplier: 1,
+                });
+            } else {
+                dataURLpng = await canvas.toDataURL({
+                    format: "png",
+                    quality: 10,
+                    multiplier: 3.22,
+                });
+            }
             // const modifiedSVG = base64ToSVG(
             //     dataURLpng,
             //     canvas.width,
@@ -650,6 +677,7 @@ const Customize: React.FC<Props> = () => {
                         }`}
                     >
                         <canvas ref={canvasRef} id="demo" />
+                        <canvas id="maskcanvas" style={{ display: "none" }} />
                         <div className={`itembg ${itemDetails.selected}`}>
                             {itemDetails.selected === "tshirt" && (
                                 <img
