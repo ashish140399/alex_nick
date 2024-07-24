@@ -487,7 +487,7 @@ const Customize: React.FC<Props> = () => {
                     img.set({
                         selectable: true, // allow object to be selected/dragged
                         evented: true,
-                        cornerSize: 10,
+                        cornerSize: 20,
                         cornerStyle: "circle",
                         transparentCorners: false,
                         hasRotatingPoint: false,
@@ -500,8 +500,8 @@ const Customize: React.FC<Props> = () => {
                     canvas.add(img);
                     canvas.centerObject(img);
                     img.set({
-                        left: img.left + 70,
-                        top: img.top - 60,
+                        left: img.left + 110,
+                        top: img.top - 100,
                     });
                 });
             }
@@ -510,6 +510,7 @@ const Customize: React.FC<Props> = () => {
                 if (bgImage2 || bgImage3) {
                     reorderCanvasObjects(e);
                 }
+                canvas.setActiveObject(e.target);
             });
             canvas.on("mouse:down", (e) => {
                 if (e.target) {
