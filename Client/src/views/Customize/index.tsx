@@ -28,7 +28,7 @@ const Customize: React.FC<Props> = () => {
         usagetime,
         userDetails,
         itemDetails,
-        bgimage,
+        bgimageoverlay,
         stickers,
         flipFlopTemplates,
     } = useContext(MyContext);
@@ -618,7 +618,7 @@ const Customize: React.FC<Props> = () => {
         <>
             {showloader && <LoaderAnimation />}
 
-            <Layout bgimage={bgimage}>
+            <Layout bgimageoverlay={bgimageoverlay}>
                 {screennum == 2 ? (
                     <h1 className="customize">
                         CUSTOMIZE YOUR{" "}
@@ -827,7 +827,7 @@ const StyledFooter = styled(Footer)`
     }
 `;
 const Layout = styled.div<{
-    bgimage: string;
+    bgimageoverlay: string;
 }>`
     display: flex;
     align-items: center;
@@ -837,7 +837,7 @@ const Layout = styled.div<{
     max-width: 100vw;
     overflow: hidden;
     // padding-top: 66px;
-    background: url("images/common/bg_test.png");
+    background: url(${(props) => props.bgimageoverlay});
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

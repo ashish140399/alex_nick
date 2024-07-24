@@ -32,6 +32,8 @@ export const MyContext = createContext({
     setSelectedItem: (design) => {},
     bgimage: null,
     setBgimage: (design) => {},
+    bgimageoverlay: null,
+    setBgimageoverlay: (design) => {},
     flipFlopTemplates: null,
     setFlipFlopTemplates: (design) => {},
     stickers: { stick: [], btn: [] },
@@ -51,32 +53,38 @@ function App() {
     //     localStorage.clear();
     // }, []);
     // const location = useLocation();
-    // const [bgimage, setBgimage] = React.useState(null);
-    // const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
-    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
+    const [bgimage, setBgimage] = React.useState(null);
+    const [bgimageoverlay, setBgimageoverlay] = React.useState(null);
+    const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
+    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
 
-    const [bgimage, setBgimage] = React.useState(() => {
-        const savedBgimage = localStorage.getItem("bgimage");
-        return savedBgimage ? JSON.parse(savedBgimage) : null;
-    });
+    // const [bgimage, setBgimage] = React.useState(() => {
+    //     const savedBgimage = localStorage.getItem("bgimage");
+    //     return savedBgimage ? JSON.parse(savedBgimage) : null;
+    // });
+    // const [bgimageoverlay, setBgimageoverlay] = React.useState(() => {
+    //     const savedBgimageoverlay = localStorage.getItem("bgimageoverlay");
+    //     return savedBgimageoverlay ? JSON.parse(savedBgimageoverlay) : null;
+    // });
 
-    const [stickers, setStickers] = React.useState(() => {
-        const savedStickers = localStorage.getItem("stickers");
-        return savedStickers
-            ? JSON.parse(savedStickers)
-            : { stick: [], btn: [] };
-    });
+    // const [stickers, setStickers] = React.useState(() => {
+    //     const savedStickers = localStorage.getItem("stickers");
+    //     return savedStickers
+    //         ? JSON.parse(savedStickers)
+    //         : { stick: [], btn: [] };
+    // });
 
-    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
-        const savedFlipFlopTemplates =
-            localStorage.getItem("flipFlopTemplates");
-        return savedFlipFlopTemplates
-            ? JSON.parse(savedFlipFlopTemplates)
-            : null;
-    });
+    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
+    //     const savedFlipFlopTemplates =
+    //         localStorage.getItem("flipFlopTemplates");
+    //     return savedFlipFlopTemplates
+    //         ? JSON.parse(savedFlipFlopTemplates)
+    //         : null;
+    // });
     React.useEffect(() => {
         localStorage.setItem("bgimage", JSON.stringify(bgimage));
-    }, [bgimage]);
+        localStorage.setItem("bgimageoverlay", JSON.stringify(bgimageoverlay));
+    }, [bgimage, bgimageoverlay]);
 
     React.useEffect(() => {
         localStorage.setItem("stickers", JSON.stringify(stickers));
@@ -158,12 +166,19 @@ function App() {
             const blob = await response.blob();
             const src = URL.createObjectURL(blob);
             setBgimage(src);
+
+            const responseoverlay = await fetch(
+                "./images/common/bg_overlay.png"
+            );
+            const bloboverlay = await responseoverlay.blob();
+            const srcoverlay = URL.createObjectURL(bloboverlay);
+            setBgimageoverlay(srcoverlay);
         };
 
-        if (!bgimage) {
+        if (!bgimage || !bgimageoverlay) {
             loadImage();
         }
-    }, [bgimage]);
+    }, [bgimage, bgimageoverlay]);
     // console.log("bgimage", bgimage);
     console.log(window.location.pathname);
     const [itemDetails, setItemDetails] = React.useState({
@@ -214,6 +229,8 @@ function App() {
                 setStickers,
                 flipFlopTemplates,
                 setFlipFlopTemplates,
+                bgimageoverlay,
+                setBgimageoverlay,
             }}
         >
             <ToastContainer />
