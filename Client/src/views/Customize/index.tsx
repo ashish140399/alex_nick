@@ -478,8 +478,8 @@ const Customize: React.FC<Props> = () => {
                         defaultWidth = 220;
                         defaultHeight = 220;
                     } else {
-                        defaultWidth = 140;
-                        defaultHeight = 140;
+                        defaultWidth = 160;
+                        defaultHeight = 160;
                     }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
