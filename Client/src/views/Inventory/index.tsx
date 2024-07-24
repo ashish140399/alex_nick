@@ -50,6 +50,7 @@ const Inventory: React.FC<Props> = () => {
         axios
             .get(`${process.env.REACT_APP_API_URL}/api/fetchinventory`)
             .then((response) => {
+                console.log(response.data);
                 setInventoryres(response.data);
             })
             .catch((error) => {
@@ -58,6 +59,7 @@ const Inventory: React.FC<Props> = () => {
     };
 
     React.useEffect(() => {
+        console.log("fetch inventory");
         fetchInventory();
     }, []);
 
