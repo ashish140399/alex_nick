@@ -102,27 +102,38 @@ const Customize: React.FC<Props> = () => {
             if (itemDetails.selected === "tshirt") {
                 // Create a new Fabric canvas instead of a standard HTML5 canvas
                 const newCanvas = new fabric.Canvas("maskcanvas");
-                const newmultiplier = 5.23;
+                const newmultiplier = 4.04;
                 newCanvas.setDimensions({
                     width: canvas.width * newmultiplier, // Multiply original canvas width by 2
                     height: canvas.height * newmultiplier, // Multiply original canvas height by 2
                 });
+                try {
+                    await new Promise((resolve, reject) => {
+                        fabric.Image.fromURL(
+                            canvas.toDataURL(),
+                            function (img) {
+                                // Scale the image
+                                img.scaleToWidth(newCanvas.width);
+                                img.scaleToHeight(newCanvas.height);
+                                newCanvas.add(img); // Add the scaled image to the Fabric canvas
+                                newCanvas.renderAll(); // Ensure all renderings are applied
+                                resolve(newCanvas); // Resolve the promise after rendering
+                            },
+                            {
+                                crossOrigin: "anonymous", // Add if dealing with CORS issues
+                            }
+                        );
+                    });
 
-                // Draw the existing canvas onto the new Fabric canvas
-                // First, convert the existing canvas to a Fabric image
-                fabric.Image.fromURL(canvas.toDataURL(), function (img) {
-                    // Scale the image
-                    img.scaleToWidth(newCanvas.width);
-                    img.scaleToHeight(newCanvas.height);
-                    newCanvas.add(img); // Add the scaled image to the Fabric canvas
-                });
-
-                // Export the new canvas to PNG
-                dataURLpng = newCanvas.toDataURL({
-                    format: "png",
-                    quality: 1, // Note: quality parameter should be between 0 (low) and 1 (high) for Fabric.js
-                    multiplier: 1,
-                });
+                    // Export the new canvas to PNG
+                    dataURLpng = newCanvas.toDataURL({
+                        format: "png",
+                        quality: 1, // Note: quality parameter should be between 0 (low) and 1 (high) for Fabric.js
+                        multiplier: 1,
+                    });
+                } catch (error) {
+                    console.error("Failed to load or process image", error);
+                }
             } else {
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
@@ -230,8 +241,8 @@ const Customize: React.FC<Props> = () => {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 630,
-                        height: 973.6335,
+                        width: 816.78,
+                        height: 970,
                     })
                 );
             }
@@ -273,7 +284,9 @@ const Customize: React.FC<Props> = () => {
             (bgImage3 && e.target !== bgImage3)
         ) {
             canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
-            canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
+
+            if (bgImage3)
+                canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
             canvas.discardActiveObject();
             canvas.renderAll();
         }
@@ -1023,7 +1036,7 @@ const Wrapper = styled.div`
 
         &.tshirt {
             position: fixed;
-            transform: translate(-20vw, 1vh);
+            transform: translate(-10vw, 1vh);
             left: 0;
             width: 100vw;
             height: 100vh;
