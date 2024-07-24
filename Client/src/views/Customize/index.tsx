@@ -292,12 +292,19 @@ const Customize: React.FC<Props> = () => {
 
     const reorderCanvasObjects = (e) => {
         if (
-            (bgImage2 && e.target !== bgImage2) ||
-            (bgImage3 && e.target !== bgImage3)
+            bgImage2 && e.target !== bgImage2
         ) {
             canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
 
-            if (bgImage3)
+
+            canvas.discardActiveObject();
+            canvas.renderAll();
+        }
+        if (
+        
+            bgImage3 && e.target !== bgImage3
+        ) {
+            
                 canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
             canvas.discardActiveObject();
             canvas.renderAll();
