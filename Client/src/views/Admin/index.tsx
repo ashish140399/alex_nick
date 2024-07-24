@@ -175,9 +175,7 @@ const sendSMS = async (res) => {
         const result = response.data;
         console.log(result);
         toast.success(
-            `Message sent to ${
-                res.userdetails?.firstName + " " + res.userdetails?.lastName
-            } for OrderId #${res.id}`,
+            `Message sent to ${res.userdetails?.firstName} for OrderId #${res.id}`,
             {
                 position: "top-right",
                 autoClose: 2000, // Close the toast after 3000ms (3 seconds)
@@ -410,7 +408,9 @@ const InnerTableRow = ({ res, index }) => {
                 </TableCell>
 
                 <TableCell align="left">{res.userdetails.firstName}</TableCell>
-                {/* <TableCell align="center">{res.userdetails.phonenumber}</TableCell> */}
+                <TableCell align="center">
+                    {res.userdetails.phonenumber}
+                </TableCell>
                 {/* <TableCell align="center">{res.userdetails.phonenumber}</TableCell> */}
                 {/* <TableCell align="center">
                 {res.itemname.toUpperCase()} TAG
@@ -498,6 +498,17 @@ const InnerTableRow = ({ res, index }) => {
                         </Select>
                     </FormControl>
                 </TableCell>
+                <TableCell align="right">
+                    <Button
+                        variant="contained"
+                        // disabled={!res.canvasuri.endsWith(".svg")}
+                        onClick={() => sendSMS(res)}
+                    >
+                        {res.texttouser?.count > 0
+                            ? "Re-Send TEXT !!"
+                            : "Send TEXT !!"}
+                    </Button>
+                </TableCell>
                 {/* {res.userdetails.smsfeature && ( */}
                 {/* <TableCell align="right">
                 <Button
@@ -575,9 +586,9 @@ const Admin: React.FC<Props> = () => {
                                         {/* <TableCell align="center">
                                             PHONE
                                         </TableCell> */}
-                                        {/* <TableCell align="center">
+                                        <TableCell align="center">
                                             Phone No.
-                                        </TableCell> */}
+                                        </TableCell>
 
                                         {/* <TableCell align="center">
                                             PRODUCT DESCRIPTION
@@ -605,9 +616,9 @@ const Admin: React.FC<Props> = () => {
                                         <TableCell align="center">
                                             STATUS
                                         </TableCell>
-                                        {/* <TableCell align="center">
+                                        <TableCell align="center">
                                             SMS
-                                        </TableCell> */}
+                                        </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

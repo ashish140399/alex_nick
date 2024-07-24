@@ -20,7 +20,7 @@ const Customize: React.FC<Props> = () => {
     const navigate = useNavigate();
     const [designfinalised, setDesignfinalised] = useState(false);
     const [objectadding, setObjectadding] = useState(true);
-p
+
     const {
         selectedItem,
 
@@ -291,24 +291,14 @@ p
     });
 
     const reorderCanvasObjects = (e) => {
-        if (
-            bgImage2 && e.target !== bgImage2
-        ) {
+        if (bgImage2 && e.target !== bgImage2) {
             canvas.moveTo(bgImage2, canvas.getObjects().length - 1);
-
-
-            canvas.discardActiveObject();
-            canvas.renderAll();
         }
-        if (
-        
-            bgImage3 && e.target !== bgImage3
-        ) {
-            
-                canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
-            canvas.discardActiveObject();
-            canvas.renderAll();
+        if (bgImage3 && e.target !== bgImage3) {
+            canvas.moveTo(bgImage3, canvas.getObjects().length - 2);
         }
+        canvas.discardActiveObject();
+        canvas.renderAll();
     };
 
     useEffect(() => {
@@ -517,7 +507,7 @@ p
             }
             // Add event listener to reorder objects when new object is added
             canvas.on("object:added", (e) => {
-                if (bgImage2) {
+                if (bgImage2 || bgImage3) {
                     reorderCanvasObjects(e);
                 }
             });
@@ -581,7 +571,7 @@ p
                         paddingBottom -
                         target.height * target.scaleY;
                 }
-                if (bgImage2) {
+                if (bgImage2 || bgImage3) {
                     reorderCanvasObjects(e);
                 }
             });
@@ -615,31 +605,31 @@ p
                         paddingBottom -
                         target.height * target.scaleY;
                 }
-                if (bgImage2) {
+                if (bgImage2 || bgImage3) {
                     reorderCanvasObjects(e);
                     console.log("in obejctmodify");
                 }
             });
 
             //canvas.on("touch:gesture", function (e) {
-               // if (e.e.touches && e.e.touches.length === 2) {
-                   // e.e.preventDefault();
-                   // if (canvas.getActiveObject()) {
-                    //    canvas.getActiveObject().set("active", true);
-                   // }
+            // if (e.e.touches && e.e.touches.length === 2) {
+            // e.e.preventDefault();
+            // if (canvas.getActiveObject()) {
+            //    canvas.getActiveObject().set("active", true);
+            // }
 
-                   // let scale = canvas.getZoom();
-                  //  scale *= e.self.scale;
-                   // scale = Math.max(0.1, Math.min(10, scale)); // set min and max zoom levels
-                   // canvas.setZoom(scale);
-                   // canvas.requestRenderAll();
-                //}
-          //  });
+            // let scale = canvas.getZoom();
+            //  scale *= e.self.scale;
+            // scale = Math.max(0.1, Math.min(10, scale)); // set min and max zoom levels
+            // canvas.setZoom(scale);
+            // canvas.requestRenderAll();
+            //}
+            //  });
 
             // Reset distance on touch end
-           // canvas.on("touch:gestureend", function () {
-           //     this.lastDistance = 0;
-          //  });
+            // canvas.on("touch:gestureend", function () {
+            //     this.lastDistance = 0;
+            //  });
 
             // Ensure cleanup to prevent multiple event bindings
             return () => {
