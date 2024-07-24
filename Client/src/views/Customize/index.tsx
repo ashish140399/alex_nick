@@ -614,25 +614,25 @@ const Customize: React.FC<Props> = () => {
                 }
             });
 
-            canvas.on("touch:gesture", function (e) {
-                if (e.e.touches && e.e.touches.length === 2) {
-                    e.e.preventDefault();
-                    if (canvas.getActiveObject()) {
-                        canvas.getActiveObject().set("active", true);
-                    }
+            //canvas.on("touch:gesture", function (e) {
+               // if (e.e.touches && e.e.touches.length === 2) {
+                   // e.e.preventDefault();
+                   // if (canvas.getActiveObject()) {
+                    //    canvas.getActiveObject().set("active", true);
+                   // }
 
-                    let scale = canvas.getZoom();
-                    scale *= e.self.scale;
-                    scale = Math.max(0.1, Math.min(10, scale)); // set min and max zoom levels
-                    canvas.setZoom(scale);
-                    canvas.requestRenderAll();
-                }
-            });
+                   // let scale = canvas.getZoom();
+                  //  scale *= e.self.scale;
+                   // scale = Math.max(0.1, Math.min(10, scale)); // set min and max zoom levels
+                   // canvas.setZoom(scale);
+                   // canvas.requestRenderAll();
+                //}
+          //  });
 
             // Reset distance on touch end
-            canvas.on("touch:gestureend", function () {
-                this.lastDistance = 0;
-            });
+           // canvas.on("touch:gestureend", function () {
+           //     this.lastDistance = 0;
+          //  });
 
             // Ensure cleanup to prevent multiple event bindings
             return () => {
