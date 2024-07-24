@@ -328,7 +328,11 @@ const Customize: React.FC<Props> = () => {
             } else if (itemDetails.selected === "flipflop") {
                 // let imgurl = `images/templates/flipflop/${itemDetails.size}/bg.png`;
                 // let imgurl1 = `images/templates/flipflop/${itemDetails.size}/right.png`;
-                let imgurloverlay = `images/templates/flipflop/KIDS SMALL/bg_overlay.png`;
+                // let imgurloverlay = `images/templates/flipflop/KIDS SMALL/bg_overlay.png`;
+
+                let imgurloverlay = flipFlopTemplates?.find(
+                    (template) => template[itemDetails.size]
+                )[itemDetails.size].bgoverlay;
                 let imgurl = flipFlopTemplates?.find(
                     (template) => template[itemDetails.size]
                 )[itemDetails.size].bg;
@@ -446,6 +450,10 @@ const Customize: React.FC<Props> = () => {
                     canvas.selection = true;
                     canvas.add(img);
                     canvas.centerObject(img);
+                    img.set({
+                        left: img.left + 50,
+                        top: img.top - 50,
+                    });
                 });
             }
             // Add event listener to reorder objects when new object is added
@@ -829,7 +837,7 @@ const Layout = styled.div<{
     max-width: 100vw;
     overflow: hidden;
     // padding-top: 66px;
-    background: url(${(props) => props.bgimage});
+    background: url("images/common/bg_test.png");
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;

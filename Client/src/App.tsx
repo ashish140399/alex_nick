@@ -51,29 +51,29 @@ function App() {
     //     localStorage.clear();
     // }, []);
     // const location = useLocation();
-    const [bgimage, setBgimage] = React.useState(null);
-    const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
-    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
+    // const [bgimage, setBgimage] = React.useState(null);
+    // const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
+    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
 
-    // const [bgimage, setBgimage] = React.useState(() => {
-    //     const savedBgimage = localStorage.getItem("bgimage");
-    //     return savedBgimage ? JSON.parse(savedBgimage) : null;
-    // });
+    const [bgimage, setBgimage] = React.useState(() => {
+        const savedBgimage = localStorage.getItem("bgimage");
+        return savedBgimage ? JSON.parse(savedBgimage) : null;
+    });
 
-    // const [stickers, setStickers] = React.useState(() => {
-    //     const savedStickers = localStorage.getItem("stickers");
-    //     return savedStickers
-    //         ? JSON.parse(savedStickers)
-    //         : { stick: [], btn: [] };
-    // });
+    const [stickers, setStickers] = React.useState(() => {
+        const savedStickers = localStorage.getItem("stickers");
+        return savedStickers
+            ? JSON.parse(savedStickers)
+            : { stick: [], btn: [] };
+    });
 
-    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
-    //     const savedFlipFlopTemplates =
-    //         localStorage.getItem("flipFlopTemplates");
-    //     return savedFlipFlopTemplates
-    //         ? JSON.parse(savedFlipFlopTemplates)
-    //         : null;
-    // });
+    const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
+        const savedFlipFlopTemplates =
+            localStorage.getItem("flipFlopTemplates");
+        return savedFlipFlopTemplates
+            ? JSON.parse(savedFlipFlopTemplates)
+            : null;
+    });
     React.useEffect(() => {
         localStorage.setItem("bgimage", JSON.stringify(bgimage));
     }, [bgimage]);
@@ -136,6 +136,7 @@ function App() {
         const loadflipfloptemplates = async () => {
             const promises = flipfloppaths.map(async (path) => ({
                 [path]: {
+                    bgoverlay: await loadflipflop(path, "bg_overlay"),
                     bg: await loadflipflop(path, "bg"),
                     left: await loadflipflop(path, "left"),
                     right: await loadflipflop(path, "right"),
@@ -166,8 +167,8 @@ function App() {
     // console.log("bgimage", bgimage);
     console.log(window.location.pathname);
     const [itemDetails, setItemDetails] = React.useState({
-        selected: "flipflop",
-        size: "KIDS SMALL",
+        selected: "",
+        size: "",
     });
     const [inventoryDetails, setInventoryDetails] = React.useState([]);
     const [selectedItem, setSelectedItem] = React.useState("");
