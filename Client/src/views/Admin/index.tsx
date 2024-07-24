@@ -279,6 +279,8 @@ const InnerTableRow = ({ res, index }) => {
 
         // Add text at the bottom
 
+        const maxW = widthcanvas - 100;
+        const maxH = widthcanvas - 100;
         return new Promise<void>((resolve, reject) => {
             fetch(res.canvasuri)
                 .then((response) => response.blob())
@@ -288,19 +290,21 @@ const InnerTableRow = ({ res, index }) => {
                         fabric.Image.fromURL(
                             reader.result as string,
                             (img) => {
-                                // const scale = Math.min(
-                                //     maxW / img.width,
-                                //     maxH / img.height
-                                // );
-                                canvas.centerObject(img);
+                                const scale = Math.min(
+                                    maxW / img.width,
+                                    maxH / img.height
+                                );
+
                                 img.set({
                                     // top: text.top + text.height,
                                     // width: 955,
                                     // height: 1931,
                                     selectable: false,
                                     evented: false,
+                                    scaleX: scale,
+                                    scaleY: scale,
                                 });
-
+                                canvas.centerObject(img);
                                 canvas.add(img);
                                 const text = new fabric.Text(
                                     `${
