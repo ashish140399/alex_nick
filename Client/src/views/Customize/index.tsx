@@ -11,6 +11,7 @@ interface Props {}
 // const timer = Date.now() + 90000;
 const Customize: React.FC<Props> = () => {
     const timertime = 90000;
+    const tshirtmultiplier = 3.183;
     const [timer, setTimer] = useState(Date.now() + timertime);
     const [selGraphic, setSelGraphic] = useState([]);
     const [graphicinventory, setGraphicinventory] = useState([]);
@@ -96,7 +97,7 @@ const Customize: React.FC<Props> = () => {
         let dataURLpng;
         if (itemDetails.selected === "tshirt") {
             const newCanvas = new fabric.Canvas("maskcanvas");
-            const newmultiplier = 3.183;
+            const newmultiplier = 1;
             //const newmultiplier = 6;
             newCanvas.setDimensions({
                 width: canvas.width * newmultiplier,
@@ -258,8 +259,8 @@ const Customize: React.FC<Props> = () => {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 816.78,
-                        height: 970,
+                        width: 816.78*tshirtmultiplier,
+                        height: 970*tshirtmultiplier,
                     })
                 );
             }
@@ -478,8 +479,8 @@ const Customize: React.FC<Props> = () => {
                     // Desired default width and height in pixels
                     let defaultWidth, defaultHeight;
                     if (itemDetails.selected === "tshirt") {
-                        defaultWidth = 220;
-                        defaultHeight = 220;
+                        defaultWidth = 220*tshirtmultiplier;
+                        defaultHeight = 220*tshirtmultiplier;
                     } else {
                         defaultWidth = 160;
                         defaultHeight = 160;
@@ -505,10 +506,13 @@ const Customize: React.FC<Props> = () => {
                     canvas.selection = true;
                     canvas.add(img);
                     canvas.centerObject(img);
-                    img.set({
-                        left: img.left + 110,
-                        top: img.top - 100,
+                    if (itemDetails.selected === "flipflop") {
+                        img.set({
+                        left: img.left + 110*tshirtmultiplier,
+                        top: img.top - 100*tshirtmultiplier,
                     });
+                    }
+                    
                 });
             }
             // Add event listener to reorder objects when new object is added
@@ -1019,6 +1023,9 @@ const TopWrapper = styled.div`
     transform: translate(-50%, -50%);
     &.flipflop {
         top: 45%;
+    }
+    &.tshirt {
+        .canvas-container{transform:scale(0.314) !important}
     }
     canvas {
         width: 100%;
