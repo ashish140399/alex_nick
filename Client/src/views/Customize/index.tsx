@@ -251,8 +251,8 @@ const Customize: React.FC<Props> = () => {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 600,
-                        height: 712.67,
+                        width: 600*flipflopmultiplier,
+                        height: 712.67*flipflopmultiplier,
                     })
                 );
             } else {
@@ -482,8 +482,8 @@ const Customize: React.FC<Props> = () => {
                         defaultWidth = 220*tshirtmultiplier;
                         defaultHeight = 220*tshirtmultiplier;
                     } else {
-                        defaultWidth = 160;
-                        defaultHeight = 160;
+                        defaultWidth = 160*flipflopmultiplier;
+                        defaultHeight = 160*flipflopmultiplier;
                     }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
@@ -508,8 +508,8 @@ const Customize: React.FC<Props> = () => {
                     canvas.centerObject(img);
                     if (itemDetails.selected === "flipflop") {
                         img.set({
-                        left: img.left + 110*tshirtmultiplier,
-                        top: img.top - 100*tshirtmultiplier,
+                        left: img.left + 110*flipflopmultiplier,
+                        top: img.top - 100*flipflopmultiplier,
                     });
                     }
                     
@@ -1023,6 +1023,7 @@ const TopWrapper = styled.div`
     transform: translate(-50%, -50%);
     &.flipflop {
         top: 45%;
+         .canvas-container{transform:scale(0.4) !important}
     }
     &.tshirt {
         .canvas-container{transform:scale(0.314) !important}
@@ -1059,7 +1060,7 @@ const Wrapper = styled.div`
 
         &.tshirt {
             position: fixed;
-            transform: translate(-10vw, 1vh);
+            transform: translate(74vw, 1vh);
             left: 0;
             width: 100vw;
             height: 100vh;
