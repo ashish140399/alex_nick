@@ -140,7 +140,7 @@ const Customize: React.FC<Props> = () => {
                     format: "png",
                     quality: 10,
                    // multiplier: 3.22,
-                    multiplier:2.5
+                    multiplier:1
                 });
             }
         }
@@ -176,10 +176,10 @@ const Customize: React.FC<Props> = () => {
             // });
             // var url = URL.createObjectURL(blob);
 
-            var link = document.createElement("a");
-            link.download = `canvas.png`;
-             link.href = dataURLpng;
-             link.click();
+            // var link = document.createElement("a");
+            // link.download = `canvas.png`;
+            // link.href = dataURLpng;
+           //  link.click();
 
             // if (customizeInfo.selected === "graphic") {
             //     modifiedSVG = await replaceImageURLWithBase64(dataURL);
@@ -217,22 +217,22 @@ const Customize: React.FC<Props> = () => {
             //     timeDifference
             // );
 
-            //axios
-              //  .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
-                //    userDetails: JSON.stringify(userDetails),
-                 //   itemname: JSON.stringify(itemDetails),
-                  //  canvasuri: dataURLpng,
-                 //   timeDiff: timeDifference,
-              //  })
-              //  .then((response) => {
-                //    console.log(response.data);
-                   // setShowloader(false);
+            axios
+                .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
+                    userDetails: JSON.stringify(userDetails),
+                    itemname: JSON.stringify(itemDetails),
+                    canvasuri: dataURLpng,
+                   timeDiff: timeDifference,
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    setShowloader(false);
 
-                  //  navigate("/thankyou");
-              //  })
-               // .catch((error) => {
-                //    console.error(error);
-               // });
+                    navigate("/thankyou");
+               })
+                .catch((error) => {
+                   console.error(error);
+                });
         }
         // });
     };
@@ -824,7 +824,7 @@ const TimeBox = styled.div`
     border: 3px solid #000;
     background: rgba(0, 0, 0, 0.5);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    position: fixed;
+    position: absolute;
     right: 7vw;
     top: 185px;
     padding: 5px 20px;
