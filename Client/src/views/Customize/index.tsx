@@ -96,8 +96,9 @@ const Customize: React.FC<Props> = () => {
         let dataURLpng;
         if (itemDetails.selected === "tshirt") {
             const newCanvas = new fabric.Canvas("maskcanvas");
-            const newmultiplier = 3.183;
-            //const newmultiplier = 6;
+            // const newmultiplier = 3.183;
+            const newmultiplier = 4.2;
+
             newCanvas.setDimensions({
                 width: canvas.width * newmultiplier,
                 height: canvas.height * newmultiplier,
@@ -137,8 +138,8 @@ const Customize: React.FC<Props> = () => {
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
                     quality: 10,
-                   // multiplier: 3.22,
-                    multiplier:2.5
+                    multiplier: 3.22,
+                    // multiplier:2.5
                 });
             }
         }
@@ -242,7 +243,7 @@ const Customize: React.FC<Props> = () => {
     // creates and saves the canvas element
     useEffect(() => {
         let devicePixelRatio = window.devicePixelRatio || 1;
-//fabric.Image.prototype.objectCaching = false;
+        //fabric.Image.prototype.objectCaching = false;
 
         if (canvasRef.current && rightWrapperRef.current) {
             // 2.0219
