@@ -480,11 +480,11 @@ const Customize: React.FC<Props> = () => {
                     // Desired default width and height in pixels
                     let defaultWidth, defaultHeight;
                     if (itemDetails.selected === "tshirt") {
-                        defaultWidth = 220*tshirtmultiplier;
-                        defaultHeight = 220*tshirtmultiplier;
+                        defaultWidth = 220;
+                        defaultHeight = 220;
                     } else {
-                        defaultWidth = 160*flipflopmultiplier;
-                        defaultHeight = 160*flipflopmultiplier;
+                        defaultWidth = 160;
+                        defaultHeight = 160;
                     }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
@@ -509,8 +509,8 @@ const Customize: React.FC<Props> = () => {
                     canvas.centerObject(img);
                     if (itemDetails.selected === "flipflop") {
                         img.set({
-                        left: img.left + 110*flipflopmultiplier,
-                        top: img.top - 100*flipflopmultiplier,
+                        left: img.left + 110,
+                        top: img.top - 100,
                     });
                     }
                     
