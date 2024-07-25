@@ -12,6 +12,7 @@ interface Props {}
 const Customize: React.FC<Props> = () => {
     const timertime = 90000;
     const tshirtmultiplier = 3.183;
+    const flipflopmultiplier = 2.5;
     const [timer, setTimer] = useState(Date.now() + timertime);
     const [selGraphic, setSelGraphic] = useState([]);
     const [graphicinventory, setGraphicinventory] = useState([]);
