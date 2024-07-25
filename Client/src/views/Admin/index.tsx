@@ -331,7 +331,7 @@ const InnerTableRow = ({ res, index }) => {
                                     top: 0,
                                     width: canvas.width,
                                     height: canvas.height,
-                                    multiplier: 2,
+                                    multiplier: 0.85,
                                 });
                                 // console.log(tempCanvas.width, highResDataURL);
 
