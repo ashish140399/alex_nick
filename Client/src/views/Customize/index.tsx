@@ -239,6 +239,9 @@ const Customize: React.FC<Props> = () => {
 
     // creates and saves the canvas element
     useEffect(() => {
+        fabric.devicePixelRatio = window.devicePixelRatio || 1;
+fabric.Image.prototype.objectCaching = false;
+
         if (canvasRef.current && rightWrapperRef.current) {
             // 2.0219
             if (itemDetails.selected === "flipflop") {
