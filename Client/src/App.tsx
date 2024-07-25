@@ -49,9 +49,9 @@ export const MyContext = createContext({
     setItemDetails: (design) => {},
 });
 function App() {
-    // React.useEffect(() => {
-    //     localStorage.clear();
-    // }, []);
+    React.useEffect(() => {
+        localStorage.clear();
+    }, []);
     // const location = useLocation();
     const [bgimage, setBgimage] = React.useState(null);
     const [bgimageoverlay, setBgimageoverlay] = React.useState(null);
