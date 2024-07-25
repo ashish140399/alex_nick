@@ -365,7 +365,7 @@ const Customize: React.FC<Props> = () => {
                 //     new fabric.Point(center.left, center.top),
                 //     0.4
                 // );
-                canvas.zoomToPoint(new fabric.Point(0, 0), 0.4);
+                // canvas.zoomToPoint(new fabric.Point(0, 0), 0.4);
                 if (itemDetails.size === "KIDS SMALL") {
                     var zoom = canvas.getZoom();
                     zoom *= 1.35; // Increase the zoom factor by 20%
@@ -387,7 +387,7 @@ const Customize: React.FC<Props> = () => {
                 //     new fabric.Point(center.left, center.top),
                 //     0.314
                 // );
-                canvas.zoomToPoint(new fabric.Point(0, 0), 0.314);
+                // canvas.zoomToPoint(new fabric.Point(0, 0), 0.314);
             }
             canvas.calcOffset();
             canvas.renderAll();
@@ -1103,8 +1103,8 @@ const TopWrapper = styled.div`
         top: 45%;
         .canvas-container {
             // transform: scale(0.4) !important;
-            max-width: 1024px !important; // Limit width to viewport width
-            max-height: 1346px !important; // Limit height to viewport height
+            max-width: 600 !important; // Limit width to viewport width
+            max-height: 712.67 !important; // Limit height to viewport height
             z-index: 9999;
         }
         .mycanvaswrapper {
@@ -1112,22 +1112,24 @@ const TopWrapper = styled.div`
             // height: 1346px;
             // overflow: hidden;
             // position: relative;
-            transform: translate(226px, 278px);
+            // transform: translate(226px, 278px)
+            transform: scale(0.4);
         }
     }
     &.tshirt {
         .canvas-container {
             // transform: scale(0.314) !important;
             z-index: 9999;
-            max-width: 1024px !important; // Limit width to viewport width
-            max-height: 1346px !important; // Limit height to viewport height
+            max-width: 816.78 !important; // Limit width to viewport width
+            max-height: 970 !important; // Limit height to viewport height
         }
         .mycanvaswrapper {
             // width: 1024px;
             // height: 1346px;
             // overflow: hidden;
             // position: relative;
-            transform: translate(130px, 192px);
+            // transform: translate(130px, 192px);
+            transform: scale(0.314);
         }
     }
     canvas {
