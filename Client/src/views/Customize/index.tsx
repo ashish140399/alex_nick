@@ -122,7 +122,7 @@ const Customize: React.FC<Props> = () => {
                 // Export the new canvas to PNG after the image is added and rendered
                 dataURLpng = newCanvas.toDataURL({
                     format: "png",
-                    quality: 1,
+                    quality: 5,
                     multiplier: 1,
                 });
                 console.log(dataURLpng); // Now dataURLpng is ready to be used
