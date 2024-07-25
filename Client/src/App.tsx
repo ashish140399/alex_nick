@@ -47,40 +47,53 @@ export const MyContext = createContext({
         size: "",
     },
     setItemDetails: (design) => {},
+    selectimage: {
+        tshirt: "",
+        flipflop: "",
+    },
+    setSelectimage: (design) => {},
 });
 function App() {
     React.useEffect(() => {
         localStorage.clear();
     }, []);
     // const location = useLocation();
+    const [selectimage, setSelectimage] = React.useState({
+        tshirt: "",
+        flipflop: "",
+    });
     const [bgimage, setBgimage] = React.useState(null);
     const [bgimageoverlay, setBgimageoverlay] = React.useState(null);
     const [stickers, setStickers] = React.useState({ stick: [], btn: [] });
     const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(null);
 
-    // const [bgimage, setBgimage] = React.useState(() => {
-    //     const savedBgimage = localStorage.getItem("bgimage");
-    //     return savedBgimage ? JSON.parse(savedBgimage) : null;
+    //   const [selectimage, setSelectimage] = React.useState(() => {
+    //     const savedimage = localStorage.getItem("selectimage");
+    //     return savedimage ? JSON.parse(savedimage) : null;
     // });
-    // const [bgimageoverlay, setBgimageoverlay] = React.useState(() => {
-    //     const savedBgimageoverlay = localStorage.getItem("bgimageoverlay");
-    //     return savedBgimageoverlay ? JSON.parse(savedBgimageoverlay) : null;
-    // });
+    //   const [bgimage, setBgimage] = React.useState(() => {
+    //       const savedBgimage = localStorage.getItem("bgimage");
+    //       return savedBgimage ? JSON.parse(savedBgimage) : null;
+    //   });
+    //   const [bgimageoverlay, setBgimageoverlay] = React.useState(() => {
+    //       const savedBgimageoverlay = localStorage.getItem("bgimageoverlay");
+    //       return savedBgimageoverlay ? JSON.parse(savedBgimageoverlay) : null;
+    //   });
 
-    // const [stickers, setStickers] = React.useState(() => {
-    //     const savedStickers = localStorage.getItem("stickers");
-    //     return savedStickers
-    //         ? JSON.parse(savedStickers)
-    //         : { stick: [], btn: [] };
-    // });
+    //   const [stickers, setStickers] = React.useState(() => {
+    //       const savedStickers = localStorage.getItem("stickers");
+    //       return savedStickers
+    //           ? JSON.parse(savedStickers)
+    //           : { stick: [], btn: [] };
+    //   });
 
-    // const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
-    //     const savedFlipFlopTemplates =
-    //         localStorage.getItem("flipFlopTemplates");
-    //     return savedFlipFlopTemplates
-    //         ? JSON.parse(savedFlipFlopTemplates)
-    //         : null;
-    // });
+    //   const [flipFlopTemplates, setFlipFlopTemplates] = React.useState(() => {
+    //       const savedFlipFlopTemplates =
+    //           localStorage.getItem("flipFlopTemplates");
+    //       return savedFlipFlopTemplates
+    //           ? JSON.parse(savedFlipFlopTemplates)
+    //           : null;
+    //   });
     React.useEffect(() => {
         localStorage.setItem("bgimage", JSON.stringify(bgimage));
         localStorage.setItem("bgimageoverlay", JSON.stringify(bgimageoverlay));
@@ -154,10 +167,26 @@ function App() {
             setFlipFlopTemplates(loadedflipfloptemplates);
         };
 
+        const loadSelectImage = async () => {
+            const promisetshirt = await loadSticker(
+                "images/common/tshirtshow.png"
+            );
+            const promiseflipflop = await loadSticker(
+                "images/common/flipflop.png"
+            );
+            const promisevar = {
+                tshirt: promisetshirt,
+                flipflop: promiseflipflop,
+            };
+
+            setSelectimage(promisevar);
+        };
+
         // Trigger loading of stickers if not already loaded
         if (stickers?.btn?.length === 0) {
             loadflipfloptemplates();
             loadStickers();
+            loadSelectImage();
         }
     }, [stickers]);
     React.useEffect(() => {
@@ -231,6 +260,8 @@ function App() {
                 setFlipFlopTemplates,
                 bgimageoverlay,
                 setBgimageoverlay,
+                selectimage,
+                setSelectimage,
             }}
         >
             <ToastContainer />

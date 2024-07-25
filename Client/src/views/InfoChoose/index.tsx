@@ -17,6 +17,7 @@ const InfoChoose: React.FC<Props> = () => {
     // const [selectedCover, setSelectedItem] = useState(selectedGradient);
     const [inventory, setInventory] = React.useState([]);
     const {
+        selectimage,
         selectedItem,
         setSelectedItem,
         itemDetails,
@@ -28,6 +29,7 @@ const InfoChoose: React.FC<Props> = () => {
         setSizeaccept(String(event.target.value));
     };
 
+    console.log("selectimage", selectimage);
     React.useEffect(() => {
         // if (pagetype==="selectitem") {
         //   setSizeaccept("");
@@ -144,10 +146,7 @@ const InfoChoose: React.FC<Props> = () => {
                                     })
                                 }
                             >
-                                <img
-                                    src="images/common/tshirtshow.png"
-                                    alt=""
-                                />
+                                <img src={selectimage.tshirt} alt="" />
                             </div>
                             <div
                                 className={`selectbox ${
@@ -162,7 +161,7 @@ const InfoChoose: React.FC<Props> = () => {
                                     })
                                 }
                             >
-                                <img src="images/common/flipflop.png" alt="" />
+                                <img src={selectimage.flipflop} alt="" />
                             </div>
                         </div>
                     )}
