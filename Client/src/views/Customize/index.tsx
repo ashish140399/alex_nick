@@ -139,8 +139,8 @@ const Customize: React.FC<Props> = () => {
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
                     quality: 10,
-                   // multiplier: 3.22,
-                    multiplier:1
+                    // multiplier: 3.22,
+                    multiplier: 1,
                 });
             }
         }
@@ -179,7 +179,7 @@ const Customize: React.FC<Props> = () => {
             // var link = document.createElement("a");
             // link.download = `canvas.png`;
             // link.href = dataURLpng;
-           //  link.click();
+            //  link.click();
 
             // if (customizeInfo.selected === "graphic") {
             //     modifiedSVG = await replaceImageURLWithBase64(dataURL);
@@ -222,16 +222,16 @@ const Customize: React.FC<Props> = () => {
                     userDetails: JSON.stringify(userDetails),
                     itemname: JSON.stringify(itemDetails),
                     canvasuri: dataURLpng,
-                   timeDiff: timeDifference,
+                    timeDiff: timeDifference,
                 })
                 .then((response) => {
                     console.log(response.data);
                     setShowloader(false);
 
                     navigate("/thankyou");
-               })
+                })
                 .catch((error) => {
-                   console.error(error);
+                    console.error(error);
                 });
         }
         // });
@@ -244,7 +244,7 @@ const Customize: React.FC<Props> = () => {
     // creates and saves the canvas element
     useEffect(() => {
         let devicePixelRatio = window.devicePixelRatio || 1;
-//fabric.Image.prototype.objectCaching = false;
+        //fabric.Image.prototype.objectCaching = false;
 
         if (canvasRef.current && rightWrapperRef.current) {
             // 2.0219
@@ -252,16 +252,16 @@ const Customize: React.FC<Props> = () => {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 600*flipflopmultiplier,
-                        height: 712.67*flipflopmultiplier,
+                        width: 600 * flipflopmultiplier,
+                        height: 712.67 * flipflopmultiplier,
                     })
                 );
             } else {
                 setCanvas(
                     new fabric.Canvas("demo", {
                         targetFindTolerance: 5,
-                        width: 816.78*tshirtmultiplier,
-                        height: 970*tshirtmultiplier,
+                        width: 816.78 * tshirtmultiplier,
+                        height: 970 * tshirtmultiplier,
                     })
                 );
             }
@@ -480,11 +480,11 @@ const Customize: React.FC<Props> = () => {
                     // Desired default width and height in pixels
                     let defaultWidth, defaultHeight;
                     if (itemDetails.selected === "tshirt") {
-                        defaultWidth = 220;
-                        defaultHeight = 220;
+                        defaultWidth = 220 * tshirtmultiplier;
+                        defaultHeight = 220 * tshirtmultiplier;
                     } else {
-                        defaultWidth = 160;
-                        defaultHeight = 160;
+                        defaultWidth = 160 * flipflopmultiplier;
+                        defaultHeight = 160 * flipflopmultiplier;
                     }
                     // Calculate the scale based on the default size
                     const scale = Math.min(
@@ -509,11 +509,10 @@ const Customize: React.FC<Props> = () => {
                     canvas.centerObject(img);
                     if (itemDetails.selected === "flipflop") {
                         img.set({
-                        left: img.left + 110,
-                        top: img.top - 100,
-                    });
+                            left: img.left + 350,
+                            top: img.top - 200,
+                        });
                     }
-                    
                 });
             }
             // Add event listener to reorder objects when new object is added
@@ -1024,10 +1023,14 @@ const TopWrapper = styled.div`
     transform: translate(-50%, -50%);
     &.flipflop {
         top: 45%;
-         .canvas-container{transform:scale(0.4) !important}
+        .canvas-container {
+            transform: scale(0.4) !important;
+        }
     }
     &.tshirt {
-        .canvas-container{transform:scale(0.314) !important}
+        .canvas-container {
+            transform: scale(0.314) !important;
+        }
     }
     canvas {
         width: 100%;
