@@ -175,10 +175,10 @@ const Customize: React.FC<Props> = () => {
             // });
             // var url = URL.createObjectURL(blob);
 
-            // var link = document.createElement("a");
-            // link.download = `canvas.png`;
-            // link.href = dataURLpng;
-            // link.click();
+            var link = document.createElement("a");
+            link.download = `canvas.png`;
+             link.href = dataURLpng;
+             link.click();
 
             // if (customizeInfo.selected === "graphic") {
             //     modifiedSVG = await replaceImageURLWithBase64(dataURL);
@@ -216,22 +216,22 @@ const Customize: React.FC<Props> = () => {
             //     timeDifference
             // );
 
-            axios
-                .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
-                    userDetails: JSON.stringify(userDetails),
-                    itemname: JSON.stringify(itemDetails),
-                    canvasuri: dataURLpng,
-                    timeDiff: timeDifference,
-                })
-                .then((response) => {
-                    console.log(response.data);
-                    setShowloader(false);
+            //axios
+              //  .post(`${process.env.REACT_APP_API_URL}/api/savepng`, {
+                //    userDetails: JSON.stringify(userDetails),
+                 //   itemname: JSON.stringify(itemDetails),
+                  //  canvasuri: dataURLpng,
+                 //   timeDiff: timeDifference,
+              //  })
+              //  .then((response) => {
+                //    console.log(response.data);
+                   // setShowloader(false);
 
-                    navigate("/thankyou");
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+                  //  navigate("/thankyou");
+              //  })
+               // .catch((error) => {
+                //    console.error(error);
+               // });
         }
         // });
     };
