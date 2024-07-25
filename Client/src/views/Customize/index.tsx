@@ -707,7 +707,13 @@ const Customize: React.FC<Props> = () => {
                         }`}
                     >
                         <canvas ref={canvasRef} id="demo" />
-                        <canvas id="maskcanvas" style={{ display: "none" }} />
+                        <div style={{ display: "none" }}>
+                            <canvas
+                                id="maskcanvas"
+                                style={{ display: "none" }}
+                            />
+                        </div>
+
                         <div className={`itembg ${itemDetails.selected}`}>
                             {itemDetails.selected === "tshirt" && (
                                 <img
