@@ -136,7 +136,8 @@ const Customize: React.FC<Props> = () => {
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
                     quality: 10,
-                    multiplier: 3.22,
+                   // multiplier: 3.22,
+                    multiplier:2.5
                 });
             }
         }
