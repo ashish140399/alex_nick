@@ -824,7 +824,7 @@ const TimeBox = styled.div`
     border: 3px solid #000;
     background: rgba(0, 0, 0, 0.5);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    position: absolute;
+    position: fixed;
     right: 7vw;
     top: 185px;
     padding: 5px 20px;
