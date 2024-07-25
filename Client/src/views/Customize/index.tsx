@@ -35,6 +35,7 @@ const Customize: React.FC<Props> = () => {
         flipFlopTemplates,
     } = useContext(MyContext);
     // const [selcdesign, setSelcdesign] = useState(selectedCover);
+    const [previewimage, setPreviewimage] = useState("");
     const [bgImage2, setBgImage2] = useState(null);
     const [bgImage3, setBgImage3] = useState(null);
     const [screennum, setScreennum] = useState(2);
@@ -93,48 +94,93 @@ const Customize: React.FC<Props> = () => {
             }
         }
     };
+    // Function to clone all objects from one canvas to another
+    function cloneCanvasContents(sourceCanvas, targetCanvas) {
+        // Create an array to hold all promise objects for each cloning action
+        const clonePromises = [];
+
+        sourceCanvas.getObjects().forEach((obj) => {
+            // Create a promise for each clone operation
+            const clonePromise = new Promise((resolve) => {
+                obj.clone(function (clonedObj) {
+                    // Ensure custom properties are copied
+                    clonedObj.set({
+                        name: obj.name, // Manually set the 'name' from the original object
+                        // Ensure all styles and other properties are cloned deeply
+                        scaleX: obj.scaleX,
+                        scaleY: obj.scaleY,
+                        angle: obj.angle,
+                        left: obj.left,
+                        top: obj.top,
+                        originX: obj.originX,
+                        originY: obj.originY,
+                        fill: obj.fill,
+                        stroke: obj.stroke,
+                        strokeWidth: obj.strokeWidth,
+                        // Add other necessary properties here
+                    });
+
+                    // If the object has additional nested properties handle them here
+                    if (obj.type === "group") {
+                        // Recursively clone all objects within a group
+                        clonedObj._objects = obj._objects.map((subObj) => {
+                            let clonedSubObj;
+                            subObj.clone((cloned) => {
+                                clonedSubObj = cloned;
+                            });
+                            return clonedSubObj;
+                        });
+                    }
+
+                    targetCanvas.add(clonedObj);
+                    resolve(targetCanvas); // Resolve the promise after the object is added
+                });
+            });
+            clonePromises.push(clonePromise); // Add to the array of promises
+        });
+
+        // Return a single Promise that resolves when all objects are cloned
+        return Promise.all(clonePromises).then(() => {
+            targetCanvas.renderAll(); // Render all at once after all cloning is done
+        });
+    }
 
     async function processCanvas(itemDetails, canvas) {
+        // var cloneCanvas = new fabric.Canvas("maskcanvas");
+        // cloneCanvas.setWidth(originalCanvas.getWidth());
+        // cloneCanvas.setHeight(originalCanvas.getHeight());
+        // cloneCanvas.setBackgroundColor(originalCanvas.backgroundColor, () =>
+        //     cloneCanvas.renderAll()
+        // );
+        // await cloneCanvasContents(originalCanvas, cloneCanvas);
+        // // originalCanvas.renderAll();
+
+        let previewurl = await canvas.toDataURL({
+            format: "png",
+            quality: 5,
+            multiplier: 1,
+        });
+        setPreviewimage(previewurl);
+
+        var center = canvas.getCenter();
+        canvas.zoomToPoint(new fabric.Point(center.left, center.top), 1);
+
+        canvas.calcOffset();
+        canvas.renderAll();
+        // console.log(
+        //     originalCanvas
+        //         .getObjects()
+        //         .find((obj) => obj.name === "borderImage3")
+        // );
         let dataURLpng;
         if (itemDetails.selected === "tshirt") {
-            const newCanvas = new fabric.Canvas("maskcanvas");
-            const newmultiplier = 1;
-            //const newmultiplier = 6;
-            newCanvas.setDimensions({
-                width: canvas.width * newmultiplier,
-                height: canvas.height * newmultiplier,
+            dataURLpng = await canvas.toDataURL({
+                format: "png",
+                quality: 5,
+                multiplier: 1,
             });
-
-            try {
-                await new Promise((resolve, reject) => {
-                    fabric.Image.fromURL(
-                        canvas.toDataURL(),
-                        function (img) {
-                            img.scaleToWidth(newCanvas.width);
-                            img.scaleToHeight(newCanvas.height);
-                            newCanvas.add(img);
-                            newCanvas.renderAll();
-                            resolve(newCanvas); // Resolve the promise without parameters
-                        },
-                        {
-                            crossOrigin: "anonymous",
-                        }
-                    );
-                });
-
-                // Export the new canvas to PNG after the image is added and rendered
-                dataURLpng = await canvas.toDataURL({
-                    format: "png",
-                    quality: 5,
-                    multiplier: newmultiplier,
-                });
-                console.log(dataURLpng); // Now dataURLpng is ready to be used
-            } catch (error) {
-                console.error("Failed to load or process image", error);
-            }
         } else {
             if (bgImage3) {
-                // Remove the image from the canvas
                 canvas.remove(bgImage3);
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
@@ -147,7 +193,7 @@ const Customize: React.FC<Props> = () => {
 
         return dataURLpng; // Return the data URL for further processing or output
     }
-
+    console.log("previewimage", previewimage);
     const downloadimage = async () => {
         // URL of the new image to replace bgimage2 with
         // const newImageUrl = `images/templates/Borders/${appDetails.idname}/${selectedItem}_bord.png`;
@@ -722,8 +768,22 @@ const Customize: React.FC<Props> = () => {
                                 : ""
                         }`}
                     >
-                        <canvas ref={canvasRef} id="demo" />
-                        <canvas id="maskcanvas" style={{ display: "none" }} />
+                        {previewimage && (
+                            <img src={previewimage} className="previewimage" />
+                        )}
+
+                        <div
+                            style={{ display: previewimage ? "none" : "block" }}
+                        >
+                            <canvas ref={canvasRef} id="demo" />
+                        </div>
+
+                        <div style={{ display: "none !important" }}>
+                            <canvas
+                                id="maskcanvas"
+                                style={{ display: "none !important" }}
+                            />
+                        </div>
                         <div className={`itembg ${itemDetails.selected}`}>
                             {itemDetails.selected === "tshirt" && (
                                 <img
