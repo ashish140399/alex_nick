@@ -96,7 +96,8 @@ const Customize: React.FC<Props> = () => {
         let dataURLpng;
         if (itemDetails.selected === "tshirt") {
             const newCanvas = new fabric.Canvas("maskcanvas");
-            const newmultiplier = 3.183;
+            //const newmultiplier = 3.183;
+            const newmultiplier = 6;
             newCanvas.setDimensions({
                 width: canvas.width * newmultiplier,
                 height: canvas.height * newmultiplier,
