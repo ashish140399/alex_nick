@@ -314,6 +314,11 @@ const Customize: React.FC<Props> = () => {
             // canvas.clear();
             // canvas.renderAll();
             if (itemDetails.selected === "flipflop") {
+                var center = canvas.getCenter();
+                canvas.zoomToPoint(
+                    new fabric.Point(center.left, center.top),
+                    0.4
+                );
                 if (itemDetails.size === "KIDS SMALL") {
                     var zoom = canvas.getZoom();
                     zoom *= 1.35; // Increase the zoom factor by 20%
@@ -329,7 +334,15 @@ const Customize: React.FC<Props> = () => {
                         zoom
                     );
                 }
+            } else {
+                var center = canvas.getCenter();
+                canvas.zoomToPoint(
+                    new fabric.Point(center.left, center.top),
+                    0.314
+                );
             }
+            canvas.calcOffset();
+            canvas.renderAll();
         }
     }, [canvas]);
 
@@ -1024,13 +1037,13 @@ const TopWrapper = styled.div`
     &.flipflop {
         top: 45%;
         .canvas-container {
-            transform: scale(0.4) !important;
+            // transform: scale(0.4) !important;
             z-index: 9999;
         }
     }
     &.tshirt {
         .canvas-container {
-            transform: scale(0.314) !important;
+            // transform: scale(0.314) !important;
             z-index: 9999;
         }
     }
