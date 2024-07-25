@@ -1025,11 +1025,13 @@ const TopWrapper = styled.div`
         top: 45%;
         .canvas-container {
             transform: scale(0.4) !important;
+            z-index: 9999;
         }
     }
     &.tshirt {
         .canvas-container {
             transform: scale(0.314) !important;
+            z-index: 9999;
         }
     }
     canvas {
