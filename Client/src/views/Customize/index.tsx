@@ -96,8 +96,8 @@ const Customize: React.FC<Props> = () => {
         let dataURLpng;
         if (itemDetails.selected === "tshirt") {
             const newCanvas = new fabric.Canvas("maskcanvas");
-            // const newmultiplier = 3.183;
-            const newmultiplier = 4.2;
+            const newmultiplier = 3.183;
+            // const newmultiplier = 4.2;
 
             newCanvas.setDimensions({
                 width: canvas.width * newmultiplier,
@@ -122,10 +122,10 @@ const Customize: React.FC<Props> = () => {
                 });
 
                 // Export the new canvas to PNG after the image is added and rendered
-                dataURLpng = newCanvas.toDataURL({
+                dataURLpng = canvas.toDataURL({
                     format: "png",
-                    quality: 5,
-                    multiplier: 1,
+                    quality: 10,
+                    multiplier: newmultiplier,
                 });
                 console.log(dataURLpng); // Now dataURLpng is ready to be used
             } catch (error) {
@@ -138,8 +138,8 @@ const Customize: React.FC<Props> = () => {
                 dataURLpng = await canvas.toDataURL({
                     format: "png",
                     quality: 10,
-                    multiplier: 3.22,
-                    // multiplier:2.5
+                    // multiplier: 3.22,
+                    multiplier: 2.5,
                 });
             }
         }
