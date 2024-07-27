@@ -10,7 +10,7 @@ import Countdown, { zeroPad } from "react-countdown";
 interface Props {}
 // const timer = Date.now() + 90000;
 const Customize: React.FC<Props> = () => {
-    const timertime = 90000;
+    const timertime = 130000;
     const [timer, setTimer] = useState(Date.now() + timertime);
     const [selGraphic, setSelGraphic] = useState([]);
     const [graphicinventory, setGraphicinventory] = useState([]);
